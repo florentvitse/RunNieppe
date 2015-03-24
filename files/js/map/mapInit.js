@@ -26,3 +26,13 @@ function addPushpin(map, param)
     // Center the map on the location
     map.setView({center: param});
 }
+
+function addPolygon(map, arrayOfLocations, color)
+{
+	// Create a polygon 
+    var polygon = new Microsoft.Maps.Polygon(arrayOfLocations, 
+    										{fillColor: color,
+    										 strokeColor: color} );
+    // Add the polygon to the map
+    map.entities.push(polygon);
+}
