@@ -21,16 +21,12 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <!-- Map Control -->
-    <script charset="UTF-8" type="text/javascript" src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&mkt=fr-fr"></script>
     <!-- Map Style --> 
     <link href="./css/map.css" rel="stylesheet">
-    <!-- Map Script --> 
-    <script src="./js/map/mapInit.js"></script>
 
     </head>
 
-  <body onload="GetMap();" style="background-color: #e5e5e5;">
+  <body style="background-color: #e5e5e5;">
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -77,5 +73,14 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="./js/ie10-viewport-bug-workaround.js"></script>
 
+    <!-- Map Control -->
+    <script charset="UTF-8" type="text/javascript" src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&mkt=fr-fr"></script>
+    <!-- Map Script --> 
+    <script src="./js/map/mapInit.js"></script>
   </body>
+      <script>
+              
+              var map = getMap();
+              addPushpin(map, new Microsoft.Maps.Location(50.69752, 2.86048));
+    </script>
 </html>
