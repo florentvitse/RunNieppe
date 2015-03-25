@@ -1,3 +1,6 @@
+var map = null;
+var nbPushpins = 1;
+
 function getMap()
 {
 	var mapOptions = {
@@ -7,27 +10,31 @@ function getMap()
                         zoom: 16
                      }
 
-	var map = new Microsoft.Maps.Map(document.getElementById("mapDiv"), mapOptions);
-
-	return map;
+	map = new Microsoft.Maps.Map(document.getElementById("mapDiv"), mapOptions);
 
 	/* TO SET BOUNDARIES ON VIEWING THE MAP */
 	
-	//var viewBoundaries = Microsoft.Maps.LocationRect.fromLocations(new Microsoft.Maps.Location(47.618594, -122.347618), new Microsoft.Maps.Location(47.620700, -122.347584), new Microsoft.Maps.Location(47.622052, -122.345869));
+	//var viewBoundaries = Microsoft.Maps.LocationRect.fromLocations(new Microsoft.Maps.Location(50.87140, 2.46893),new Microsoft.Maps.Location(50.88889, 3.43453), new Microsoft.Maps.Location(50.49507, 3.43557));
     //map.setView({ bounds: viewBoundaries});
+
+    // 50.87140, 2.46893
+    // 50.88889, 3.43453 
+    // 50.49507, 3.43557
+    // 50.48198, 2.41089
 }
 
-function addPushpin(map, param)
+function addPushpin(param)
 {
 	// Add a pin to the map
-    var pin = new Microsoft.Maps.Pushpin(param); 
+    var pin = new Microsoft.Maps.Pushpin(param, {text: nbPushpins.toString()}); 
+    nbPushpins++;
     map.entities.push(pin);
 
     // Center the map on the location
     map.setView({center: param});
 }
 
-function addPolygon(map, arrayOfLocations, color)
+function addPolygon(arrayOfLocations, color)
 {
 	// Create a polygon 
     var polygon = new Microsoft.Maps.Polygon(arrayOfLocations, 
