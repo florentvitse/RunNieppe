@@ -1,6 +1,9 @@
+/* GLOBALES VARIABLES */
 var map = null;
 var currentLocation = null;
 var nbPushpins = 1;
+
+/* FUNCTIONS */
 
 function getMap()
 {
@@ -8,7 +11,7 @@ function getMap()
 						credentials: "AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0",
 						center: new Microsoft.Maps.Location(50.69752, 2.86048),
                         mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-                        //zoom: 16,
+                        zoom: 16,
                         showDashboard: false,
                         enableSearchLogo: false
                      }
@@ -29,11 +32,9 @@ function getCurrentLocation()
         currentLocation = e.center
         alert('Localisation ' + e.center);
         map.setView({zoom: 16})
-      } }); 
+      } 
+    }); 
 }
-
-
-
 
 function addPushpin(param)
 {
@@ -55,3 +56,8 @@ function addPolygon(arrayOfLocations, color)
     // Add the polygon to the map
     map.entities.push(polygon);
 }
+
+/* EVENTS */
+
+// Add a handler for the map click event.
+Microsoft.Maps.Events.addHandler(map, 'click', addPushpin(null));
