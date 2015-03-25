@@ -1,5 +1,5 @@
 .map {
-	position: absolute;
+	position: relative;
 	width: 1020px;
 	height: 650px;
 	border:#555555 2px solid;
