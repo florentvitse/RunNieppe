@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="fr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <head>
 
     <title>RunNieppe</title>
 
@@ -23,21 +23,19 @@
 
     <!-- Map Style --> 
     <link href="./css/map.css" rel="stylesheet">
-
-    </head>
+  </head>
 
   <body style="background-color: #e5e5e5;">
-
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
+          <a class="navbar-brand" href="#">RunNieppe</a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">RunNieppe</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -77,8 +75,8 @@
     <script charset="UTF-8" type="text/javascript" src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&mkt=fr-fr"></script>
     <!-- Map Script --> 
     <script src="./js/map/mapInit.js"></script>
-  </body>
-      <script>
+
+    <script>
               
             getMap();
             addPushpin(new Microsoft.Maps.Location(50.69752, 2.86048));
@@ -93,4 +91,5 @@
             var vertices = new Array(location1, location2, location3, location4, location1);
             addPolygon(vertices, new Microsoft.Maps.Color(100,100,0,100));
     </script>
+  </body>
 </html>

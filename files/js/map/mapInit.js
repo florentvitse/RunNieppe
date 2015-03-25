@@ -20,6 +20,17 @@ function getMap()
 
     /* A TESTER SUR ORDI PERSO */
     //getCurrentLocation();
+
+    /* EVENTS */
+    Microsoft.Maps.Events.addHandler(map, 'click', function(e) 
+            {
+              if (e.targetType == "map") {
+                  var point = new Microsoft.Maps.Point(e.getX(), e.getY());
+                  var loc = e.target.tryPixelToLocation(point);
+                  addPushpin(loc);
+              }
+            }
+    );
 }
 
 function getCurrentLocation()
@@ -56,8 +67,3 @@ function addPolygon(arrayOfLocations, color)
     // Add the polygon to the map
     map.entities.push(polygon);
 }
-
-/* EVENTS */
-
-// Add a handler for the map click event.
-Microsoft.Maps.Events.addHandler(map, 'click', addPushpin(null));
