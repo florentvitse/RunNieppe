@@ -1,4 +1,5 @@
 var map = null;
+var currentLocation = null;
 var nbPushpins = 1;
 
 function getMap()
@@ -7,21 +8,32 @@ function getMap()
 						credentials: "AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0",
 						center: new Microsoft.Maps.Location(50.69752, 2.86048),
                         mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-                        zoom: 16
+                        //zoom: 16,
+                        showDashboard: false,
+                        enableSearchLogo: false
                      }
 
 	map = new Microsoft.Maps.Map(document.getElementById("mapDiv"), mapOptions);
 
-	/* TO SET BOUNDARIES ON VIEWING THE MAP */
-	
-	//var viewBoundaries = Microsoft.Maps.LocationRect.fromLocations(new Microsoft.Maps.Location(50.87140, 2.46893),new Microsoft.Maps.Location(50.88889, 3.43453), new Microsoft.Maps.Location(50.49507, 3.43557));
-    //map.setView({ bounds: viewBoundaries});
-
-    // 50.87140, 2.46893
-    // 50.88889, 3.43453 
-    // 50.49507, 3.43557
-    // 50.48198, 2.41089
+    /* A TESTER SUR ORDI PERSO */
+    //getCurrentLocation();
 }
+
+function getCurrentLocation()
+{
+    var geoLocationProvider = new Microsoft.Maps.GeoLocationProvider(map);  
+
+    geoLocationProvider.getCurrentPosition({ successCallback: function(e)  
+      {
+        geoLocationProvider.removeAccuracyCircle()
+        currentLocation = e.center
+        alert('Localisation ' + e.center);
+        map.setView({zoom: 16})
+      } }); 
+}
+
+
+
 
 function addPushpin(param)
 {
