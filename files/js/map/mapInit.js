@@ -22,6 +22,12 @@ function getMap()
     //getCurrentLocation();
 
     /* EVENTS */
+    Microsoft.Maps.Events.addHandler(map, 'dblclick', 
+            function(e) {
+                e.handled = true;
+            }
+    );
+
     Microsoft.Maps.Events.addHandler(map, 'click', 
             function(e) {
               if (e.targetType == "map") {
