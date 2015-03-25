@@ -22,8 +22,8 @@ function getMap()
     //getCurrentLocation();
 
     /* EVENTS */
-    Microsoft.Maps.Events.addHandler(map, 'click', function(e) 
-            {
+    Microsoft.Maps.Events.addHandler(map, 'click', 
+            function(e) {
               if (e.targetType == "map") {
                   var point = new Microsoft.Maps.Point(e.getX(), e.getY());
                   var loc = e.target.tryPixelToLocation(point);
@@ -37,12 +37,12 @@ function getCurrentLocation()
 {
     var geoLocationProvider = new Microsoft.Maps.GeoLocationProvider(map);  
 
-    geoLocationProvider.getCurrentPosition({ successCallback: function(e)  
-      {
-        geoLocationProvider.removeAccuracyCircle()
-        currentLocation = e.center
-        alert('Localisation ' + e.center);
-        map.setView({zoom: 16})
+    geoLocationProvider.getCurrentPosition({ successCallback: 
+        function(e) {
+            geoLocationProvider.removeAccuracyCircle()
+            currentLocation = e.center
+            alert('Localisation ' + e.center);
+            map.setView({zoom: 16})
       } 
     }); 
 }
