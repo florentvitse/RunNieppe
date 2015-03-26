@@ -128,3 +128,21 @@ function createDirections(param)
         }
     }
 }
+
+/* HAVERSINE FORMULA */
+
+// Add the method toRad() to the JS Class Number
+Number.prototype.toRad = function() { return this * (Math.PI / 180); };
+
+function calculateDistance(locationStart, locationEnd)
+{
+    // Earth Radius
+    var earthRadius = 63781000; // in meters
+    var dLat = (locationEnd.latitude - locationStart.latitude).toRad();
+    var dLon = (locationEnd.longitude - locationStart.longitude).toRad();
+
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(locationStart.latitude.toRad()) * Math.cos(locationEnd.latitude.toRad()); 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = earthRadius * c;
+}
