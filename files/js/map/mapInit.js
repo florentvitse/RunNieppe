@@ -1,7 +1,10 @@
 /* GLOBALES VARIABLES */
 var map = null;
 var currentLocation = null;
-var nbPushpins = 1;
+var nbPushpins = 0;
+
+var lastPushpinLocation = null;
+var directionsManager = null;
 
 /* FUNCTIONS */
 
@@ -34,6 +37,7 @@ function getMap()
                   var point = new Microsoft.Maps.Point(e.getX(), e.getY());
                   var loc = e.target.tryPixelToLocation(point);
                   addPushpin(loc);
+                  createDirections(loc);
               }
             }
     );
@@ -56,9 +60,10 @@ function getCurrentLocation()
 function addPushpin(param)
 {
 	// Add a pin to the map
-    var pin = new Microsoft.Maps.Pushpin(param, {text: nbPushpins.toString()}); 
     nbPushpins++;
+    var pin = new Microsoft.Maps.Pushpin(param, {text: nbPushpins.toString()}); 
     map.entities.push(pin);
+    lastPushpinLocation = param;
 
     // Center the map on the location
     map.setView({center: param});
@@ -72,4 +77,54 @@ function addPolygon(arrayOfLocations, color)
     										 strokeColor: color} );
     // Add the polygon to the map
     map.entities.push(polygon);
+}
+
+function createDirectionsManager()
+{
+    if (!directionsManager) 
+    {
+        directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+    }
+    directionsManager.resetDirections();
+
+
+    //directionsErrorEventObj = Microsoft.Maps.Events.addHandler(directionsManager, 'directionsError', function(arg) { alert("Impossible de calculer le trajet") });
+    //directionsUpdatedEventObj = Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', function() { alert("Trajet mis à jour") });
+}
+      
+function createWalkingRoute(param)
+{
+
+    if (!directionsManager) {
+        createDirectionsManager();
+    }
+    directionsManager.resetDirections();
+    
+    // Set Route Mode to walking 
+    directionsManager.setRequestOptions({ routeMode: Microsoft.Maps.Directions.RouteMode.walking });
+    //var start = new Microsoft.Maps.Directions.Waypoint({ location: new Microsoft.Maps.Location(50.69907, 2.86194) });
+    var start = new Microsoft.Maps.Directions.Waypoint({ location: lastPushpinLocation });
+    directionsManager.addWaypoint(start);
+    //var end = new Microsoft.Maps.Directions.Waypoint({ location: new Microsoft.Maps.Location(50.70075, 2.86389) });
+    var end = new Microsoft.Maps.Directions.Waypoint({ location: param });
+    directionsManager.addWaypoint(end);
+    
+    // Set the element in which the itinerary will be rendered
+    //directionsManager.setRenderOptions({ itineraryContainer: document.getElementById('directionsItinerary') });
+    directionsManager.calculateDirections();
+
+}
+
+function createDirections(param)
+{
+    if(nbPushpins != 1) {
+        if (!directionsManager)
+        {
+          Microsoft.Maps.loadModule('Microsoft.Maps.Directions', { callback: createWalkingRoute(param) });
+        }
+        else
+        {
+          createWalkingRoute();
+        }
+    }
 }
