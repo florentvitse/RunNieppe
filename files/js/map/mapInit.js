@@ -77,9 +77,12 @@ function addPushpin(param)
 
 function deletePushpin(e)
 {
-    nbPushpins--;
-    map.entities.removeAt(nbPushpins);
-    totalDistance -= lastCalculateDistance;
+    if(e.target.getText() == nbPushpins)
+    {
+        nbPushpins--;
+        map.entities.removeAt(nbPushpins);
+        totalDistance -= lastCalculateDistance;
+    }
 }
 
 function addPolygon(arrayOfLocations, color)
