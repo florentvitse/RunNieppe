@@ -66,11 +66,18 @@ function addPushpin(param)
 	// Add a pin to the map
     nbPushpins++;
     var pin = new Microsoft.Maps.Pushpin(param, {text: nbPushpins.toString()}); 
+    Microsoft.Maps.Events.addHandler(pin, 'rightclick', deletePushpin);
     map.entities.push(pin);
     lastPushpinLocation = param;
 
     // Center the map on the location
     map.setView({center: param});
+}
+
+function deletePushpin(e)
+{
+    alert('PUSHPIN RIGHT CLICK');
+    alert(e.getText());
 }
 
 function addPolygon(arrayOfLocations, color)
@@ -119,6 +126,8 @@ function addHTMLDiffPushpin(distance)
         }
     }
 }
+
+
 
 
 
