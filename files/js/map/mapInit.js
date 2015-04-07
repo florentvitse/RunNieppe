@@ -89,6 +89,7 @@ function deletePushpin(e)
            totalDistance -= d; 
         }
     }
+    lastPushpinLocation = map.entities.get(nbPushpins - 1).getLocation()
     updateDisplayAfterRemoval();
 }
 
