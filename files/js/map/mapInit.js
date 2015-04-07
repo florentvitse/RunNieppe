@@ -83,6 +83,7 @@ function deletePushpin(e)
         map.entities.removeAt(nbPushpins);
         totalDistance -= lastCalculateDistance;
     }
+    updateDisplayAfterRemoval();
 }
 
 function addPolygon(arrayOfLocations, color)
@@ -132,6 +133,15 @@ function addHTMLDiffPushpin(distance)
     }
 }
 
+function updateDisplayAfterRemoval()
+{
+    if(totalDistance < 1000) {
+            $("#total_distance").text(totalDistance.toFixed(2) + ' m');
+    } else {
+            $("#total_distance").text((totalDistance / 1000).toFixed(2) + ' km');
+    }
+    $("#table_distance tr:last").remove();
+}
 
 
 
