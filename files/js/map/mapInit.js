@@ -9,6 +9,9 @@ var directionsManager = null;
 
 /* FUNCTIONS */
 
+// Add the method toRad() to the JS Class Number
+Number.prototype.toRad = function() { return this * (Math.PI / 180); };
+
 function getMap()
 {
 	var mapOptions = {
@@ -77,19 +80,16 @@ function deletePushpin(e)
 {
     if(parseInt(e.target.getText()) === nbPushpins)
     {
-        var lastInsert = map.entities.get(nbPushpins - 1);
-        var lastLastInsert = map.entities.get(nbPushpins - 2);
-        var d = calculateDistance(lastInsert.getLocation(), lastLastInsert.getLocation());
-        alert(d);
         nbPushpins--;
         map.entities.removeAt(nbPushpins);
         if(nbPushpins === 1) {
             totalDistance = 0;
         } else {
-           totalDistance -= d; 
+           totalDistance -= calculateDistance(map.entities.get(nbPushpins - 1).getLocation(), map.entities.get(nbPushpins - 2).getLocation()); 
         }
     }
-    lastPushpinLocation = map.entities.get(nbPushpins - 1).getLocation()
+
+    lastPushpinLocation = map.entities.get(nbPushpins - 1).getLocation();
     updateDisplayAfterRemoval();
 }
 
@@ -105,9 +105,6 @@ function addPolygon(arrayOfLocations, color)
 
 /* HAVERSINE FORMULA */
 
-// Add the method toRad() to the JS Class Number
-Number.prototype.toRad = function() { return this * (Math.PI / 180); };
-
 function calculateDistance(locationStart, locationEnd)
 {
     if(locationStart != null) {
@@ -120,7 +117,8 @@ function calculateDistance(locationStart, locationEnd)
             Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(locationStart.latitude.toRad()) * Math.cos(locationEnd.latitude.toRad()); 
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
         var d = earthRadius * c;
-
+        
+        totalDistance += d;
         return d;
     } else {
         return 0;
@@ -131,7 +129,6 @@ function addHTMLDiffPushpin(distance)
 {
     if(distance > 0) {
         $("#table_distance tr:last").after("<tr><td>" + nbPushpins + "</td><td>" + (nbPushpins + 1) + "</td><td>" + distance.toFixed(2) + " m</td></tr>");
-        totalDistance += distance;
         if(totalDistance < 1000) {
             $("#total_distance").text(totalDistance.toFixed(2) + ' m');
         } else {
@@ -144,9 +141,9 @@ function updateDisplayAfterRemoval()
 {
     if(nbPushpins > 0) {
         if(totalDistance < 1000) {
-                $("#total_distance").text(totalDistance.toFixed(2) + ' m');
+            $("#total_distance").text(totalDistance.toFixed(2) + ' m');
         } else {
-                $("#total_distance").text((totalDistance / 1000).toFixed(2) + ' km');
+            $("#total_distance").text((totalDistance / 1000).toFixed(2) + ' km');
         }
         $("#table_distance tr:last").remove();
     }
