@@ -3,6 +3,7 @@ var map = null;
 var currentLocation = null;
 var nbPushpins = 0;
 var totalDistance = 0;
+var lastCalculateDistance = 0;
 
 var lastPushpinLocation = null;
 var directionsManager = null;
@@ -37,8 +38,8 @@ function getMap()
               if (e.targetType == "map") {
                   var point = new Microsoft.Maps.Point(e.getX(), e.getY());
                   var loc = e.target.tryPixelToLocation(point);
-                  var d = calculateDistance(lastPushpinLocation, loc);
-                  addHTMLDiffPushpin(d);
+                  lastCalculateDistance = calculateDistance(lastPushpinLocation, loc);
+                  addHTMLDiffPushpin(lastCalculateDistance);
                   addPushpin(loc);
                   
                   //createDirections(loc);
@@ -76,8 +77,9 @@ function addPushpin(param)
 
 function deletePushpin(e)
 {
-    alert('PUSHPIN RIGHT CLICK');
-    alert(e.target.getText());
+    nbPushpins--;
+    map.entities.removeAt(nbPushpins);
+    totalDistance -= lastCalculateDistance;
 }
 
 function addPolygon(arrayOfLocations, color)
