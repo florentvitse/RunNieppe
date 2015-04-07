@@ -151,15 +151,30 @@ function addHTMLDiffPushpin(distance)
             {
                 case 0 :
                     percent = Math.ceil((totalDistance / 5000) * 100);
-                    $(this).css("width", percent + '%');
+                    if(percent > 100) {
+                        percent = 100;
+                        $(this).removeClass("active");
+                    } 
+                    $(this).animate({ width: (percent + '%') }, 400).attr('aria-valuenow', percent);
+                    $(this).text(percent + ' %');
                     break;
                 case 1 :
                     percent = Math.ceil((totalDistance / 10000) * 100);
-                    $(this).css("width", percent + '%');
+                    if(percent > 100) {
+                        percent = 100;
+                        $(this).removeClass("active");
+                    } 
+                    $(this).animate({ width: (percent + '%') }, 400).attr('aria-valuenow', percent);
+                    $(this).text(percent + ' %');
                     break;
                 case 2 : 
                     percent = Math.ceil((totalDistance / 15000) * 100);
-                    $(this).css("width", percent + '%');
+                    if(percent > 100) {
+                        percent = 100;
+                        $(this).removeClass("active");
+                    } 
+                    $(this).animate({ width: (percent + '%') }, 400).attr('aria-valuenow', percent);
+                    $(this).text(percent + ' %');
                     break;
             }
             //$( this ).toggleClass( "example" );
