@@ -77,7 +77,7 @@ function addPushpin(param)
 function deletePushpin(e)
 {
     alert('PUSHPIN RIGHT CLICK');
-    alert(e.getText());
+    alert(e.target.getText());
 }
 
 function addPolygon(arrayOfLocations, color)
