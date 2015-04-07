@@ -98,9 +98,8 @@ function deletePushpin(e)
                 lastPushpinLocation = map.entities.get(nbPushpins - 1).getLocation();
                 break;
         }
+        updateDisplayAfterRemoval();
     }
-
-    updateDisplayAfterRemoval();
 }
 
 function addPolygon(arrayOfLocations, color)
