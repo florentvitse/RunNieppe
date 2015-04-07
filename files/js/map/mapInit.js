@@ -77,7 +77,7 @@ function addPushpin(param)
 
 function deletePushpin(e)
 {
-    if(e.target.getText() == nbPushpins)
+    if(parseInt(e.target.getText()) === nbPushpins)
     {
         nbPushpins--;
         map.entities.removeAt(nbPushpins);
