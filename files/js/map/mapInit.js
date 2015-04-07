@@ -1,10 +1,12 @@
 /* GLOBALES VARIABLES */
 var map = null;
-var currentLocation = null;
 var nbPushpins = 0;
-var totalDistance = 0;
 
+var totalDistance = 0;
 var lastPushpinLocation = null;
+
+var currentLocation = null;
+
 var directionsManager = null;
 
 /* FUNCTIONS */
@@ -82,14 +84,15 @@ function deletePushpin(e)
     {
         nbPushpins--;
         map.entities.removeAt(nbPushpins);
-        if(nbPushpins === 1) {
+        if(nbPushpins < 2) {
             totalDistance = 0;
+            if(nbPushpins === 0) lastPushpinLocation = null;
         } else {
            totalDistance -= calculateDistance(map.entities.get(nbPushpins - 1).getLocation(), map.entities.get(nbPushpins - 2).getLocation()); 
+           lastPushpinLocation = map.entities.get(nbPushpins - 1).getLocation();
         }
     }
 
-    lastPushpinLocation = map.entities.get(nbPushpins - 1).getLocation();
     updateDisplayAfterRemoval();
 }
 
