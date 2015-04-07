@@ -36,8 +36,11 @@ function getMap()
               if (e.targetType == "map") {
                   var point = new Microsoft.Maps.Point(e.getX(), e.getY());
                   var loc = e.target.tryPixelToLocation(point);
+                  var d = calculateDistance(lastPushpinLocation, loc);
+                  addHTMLDiffPushpin(d);
                   addPushpin(loc);
-                  createDirections(loc);
+                  
+                  //createDirections(loc);
               }
             }
     );
@@ -78,6 +81,44 @@ function addPolygon(arrayOfLocations, color)
     // Add the polygon to the map
     map.entities.push(polygon);
 }
+
+/* HAVERSINE FORMULA */
+
+// Add the method toRad() to the JS Class Number
+Number.prototype.toRad = function() { return this * (Math.PI / 180); };
+
+function calculateDistance(locationStart, locationEnd)
+{
+    if(locationStart != null) {
+        // Earth Radius
+        var earthRadius = 6378100; // in meters
+        var dLat = (locationEnd.latitude - locationStart.latitude).toRad();
+        var dLon = (locationEnd.longitude - locationStart.longitude).toRad();
+
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(locationStart.latitude.toRad()) * Math.cos(locationEnd.latitude.toRad()); 
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        var d = earthRadius * c;
+
+        return d;
+    } else {
+        return 0;
+    }
+}
+
+function addHTMLDiffPushpin(distance)
+{
+    if(distance > 0) {
+        $("#table_distance tr:last").after("<tr><td>" + nbPushpins + "</td><td>" + (nbPushpins + 1) + "</td><td>" + distance.toFixed(2) + "</td></tr>");
+        $("#total_distance").text((parseInt($("#total_distance").text()) + distance).toFixed(2));
+    }
+}
+
+
+
+
+
+/* DIRECTION SUIVANT LA ROUTE (BUG PRESENT) */
 
 function createDirectionsManager()
 {
@@ -127,22 +168,4 @@ function createDirections(param)
           createWalkingRoute();
         }
     }
-}
-
-/* HAVERSINE FORMULA */
-
-// Add the method toRad() to the JS Class Number
-Number.prototype.toRad = function() { return this * (Math.PI / 180); };
-
-function calculateDistance(locationStart, locationEnd)
-{
-    // Earth Radius
-    var earthRadius = 63781000; // in meters
-    var dLat = (locationEnd.latitude - locationStart.latitude).toRad();
-    var dLon = (locationEnd.longitude - locationStart.longitude).toRad();
-
-    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(locationStart.latitude.toRad()) * Math.cos(locationEnd.latitude.toRad()); 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-    var d = earthRadius * c;
 }
