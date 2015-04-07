@@ -2,6 +2,7 @@
 var map = null;
 var currentLocation = null;
 var nbPushpins = 0;
+var totalDistance = 0;
 
 var lastPushpinLocation = null;
 var directionsManager = null;
@@ -109,8 +110,13 @@ function calculateDistance(locationStart, locationEnd)
 function addHTMLDiffPushpin(distance)
 {
     if(distance > 0) {
-        $("#table_distance tr:last").after("<tr><td>" + nbPushpins + "</td><td>" + (nbPushpins + 1) + "</td><td>" + distance.toFixed(2) + "</td></tr>");
-        $("#total_distance").text((parseInt($("#total_distance").text()) + distance).toFixed(2));
+        $("#table_distance tr:last").after("<tr><td>" + nbPushpins + "</td><td>" + (nbPushpins + 1) + "</td><td>" + distance.toFixed(2) + " m</td></tr>");
+        totalDistance += distance;
+        if(totalDistance < 1000) {
+            $("#total_distance").text(totalDistance.toFixed(2) + ' m');
+        } else {
+            $("#total_distance").text((totalDistance / 1000).toFixed(2) + ' km');
+        }
     }
 }
 
