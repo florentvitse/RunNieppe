@@ -3,7 +3,6 @@ var map = null;
 var currentLocation = null;
 var nbPushpins = 0;
 var totalDistance = 0;
-var lastCalculateDistance = 0;
 
 var lastPushpinLocation = null;
 var directionsManager = null;
@@ -38,8 +37,7 @@ function getMap()
               if (e.targetType == "map") {
                   var point = new Microsoft.Maps.Point(e.getX(), e.getY());
                   var loc = e.target.tryPixelToLocation(point);
-                  lastCalculateDistance = calculateDistance(lastPushpinLocation, loc);
-                  addHTMLDiffPushpin(lastCalculateDistance);
+                  addHTMLDiffPushpin(calculateDistance(lastPushpinLocation, loc));
                   addPushpin(loc);
                   
                   //createDirections(loc);
@@ -79,9 +77,17 @@ function deletePushpin(e)
 {
     if(parseInt(e.target.getText()) === nbPushpins)
     {
+        var lastInsert = map.entities.get(nbPushpins - 1);
+        var lastLastInsert = map.entities.get(nbPushpins - 2);
+        var d = calculateDistance(lastInsert.getLocation(), lastLastInsert.getLocation());
+        alert(d);
         nbPushpins--;
         map.entities.removeAt(nbPushpins);
-        totalDistance -= lastCalculateDistance;
+        if(nbPushpins === 1) {
+            totalDistance = 0;
+        } else {
+           totalDistance -= d; 
+        }
     }
     updateDisplayAfterRemoval();
 }
@@ -135,12 +141,14 @@ function addHTMLDiffPushpin(distance)
 
 function updateDisplayAfterRemoval()
 {
-    if(totalDistance < 1000) {
-            $("#total_distance").text(totalDistance.toFixed(2) + ' m');
-    } else {
-            $("#total_distance").text((totalDistance / 1000).toFixed(2) + ' km');
+    if(nbPushpins > 0) {
+        if(totalDistance < 1000) {
+                $("#total_distance").text(totalDistance.toFixed(2) + ' m');
+        } else {
+                $("#total_distance").text((totalDistance / 1000).toFixed(2) + ' km');
+        }
+        $("#table_distance tr:last").remove();
     }
-    $("#table_distance tr:last").remove();
 }
 
 
