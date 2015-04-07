@@ -84,12 +84,19 @@ function deletePushpin(e)
     {
         nbPushpins--;
         map.entities.removeAt(nbPushpins);
-        if(nbPushpins < 2) {
-            totalDistance = 0;
-            if(nbPushpins === 0) lastPushpinLocation = null;
-        } else {
-           totalDistance -= calculateDistance(map.entities.get(nbPushpins - 1).getLocation(), map.entities.get(nbPushpins - 2).getLocation()); 
-           lastPushpinLocation = map.entities.get(nbPushpins - 1).getLocation();
+        switch(nbPushpins)
+        {
+            case 0 :
+                lastPushpinLocation = null;
+                break;
+            case 1 :
+                totalDistance = 0;
+                lastPushpinLocation = map.entities.get(0).getLocation();
+                break;
+            default :
+                totalDistance -= calculateDistance(map.entities.get(nbPushpins - 1).getLocation(), map.entities.get(nbPushpins - 2).getLocation()); 
+                lastPushpinLocation = map.entities.get(nbPushpins - 1).getLocation();
+                break;
         }
     }
 
