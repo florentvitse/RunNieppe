@@ -20,19 +20,20 @@ function updateProgressBar()
     var arrayDistance = [5000, 10000, 15000, 21000, 30000, 42195];
     var distTest = 0;
        
-    while((distTest < arrayDistance.length - 3) && (totalDistance > arrayDistance[distTest + 1]))
+    while((distTest < arrayDistance.length - 3) && (totalDistance > arrayDistance[distTest]))
     {
         distTest++;
     }
 
-
     // Start in the array of distance
-    alert(distTest);
+    //alert(distTest);
     //alert($(labelBar[key]).text());
 
     for (key in arrayBar) {
 
-        percent = Math.ceil((totalDistance / arrayDistance[key]) * 100);
+        $(labelBar[key]).text((arrayDistance[distTest + parseInt(key)] / 1000) + " km");
+
+        percent = Math.ceil((totalDistance / arrayDistance[distTest + parseInt(key)]) * 100);
         if(percent > 100) {
             percent = 100;
             $(arrayBar[key]).removeClass("active");
