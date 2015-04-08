@@ -60,39 +60,31 @@
           <div class="col-md-12"> 
             <div id='mapDiv' class="map" oncontextmenu="return false;">
             </div>
-          <div>
-            <br>
+          </div>
+        </div>
             <hr>
           <div class="row">
-            <div class="col-md-8">
-              <table id="table_distance" class="table table-hover">
-                <thead>
-                  <th>Pushpin de départ
-                  </th>
-                  <th>Pushpin d'Arrivée
-                  </th>
-                  <th><i>Distance</i>
-                  </th>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
-            </div>
-            <div class="col-md-4">
-              Distance Total : <em id="total_distance">0.00 m</em>
+            <div class="col-md-3">
               <br>
+              Distance Total : <b><em id="total_distance">0.00 m</em></b>
+            </div>
+            <div class="col-md-3"> 
               <div class="pull-right">5 km</div>
               <br>
               <div class="progress">
                 <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" data-transitiongoal="0">
                 </div>
               </div>
+            </div>
+            <div class="col-md-3"> 
               <div class="pull-right">10 km</div>
               <br>
               <div class="progress">
                 <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" data-transitiongoal="0">
                 </div>
               </div>
+            </div>
+            <div class="col-md-3">
               <div class="pull-right">15 km</div>
               <br>
               <div class="progress">
@@ -105,6 +97,27 @@
                 </div>
               </div>-->
             </div>
+          </div>  
+          <h3>Intervalles <span class="glyphicon glyphicon-chevron-down"></span></h3>
+          <div class="row">
+            <table id="table_distance" class="table table-hover">
+              <thead>
+                <th>Pushpin de départ
+                </th>
+                <th>Pushpin d'Arrivée
+                </th>
+                <th><i>Distance</i>
+                </th>
+              </thead>
+              <tbody>
+                <!--<tr>
+                  <td colspan="3">
+                    <img src="images/blue_pushpin.png" />
+                      280 m
+                    <img src="images/default_pushpin.png" />
+                  </td> -->
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

@@ -16,16 +16,16 @@ function addHTMLPushpin(distance)
 function updateProgressBar()
 {
     var arrayBar = $(".progress .progress-bar").get();
-    var DISTANCE = 5000;
+    var arrayDistance = [5000, 10000, 15000, 21000, 30000, 42195];
 
     for (key in arrayBar) {
-        percent = Math.ceil((totalDistance / DISTANCE) * 100);
+        alert( (totalDistance - (totalDistance % arrayDistance[key])) / arrayDistance[key]);
+        percent = Math.ceil((totalDistance / arrayDistance[key]) * 100);
         if(percent > 100) {
             percent = 100;
             $(arrayBar[key]).removeClass("active");
         } 
         $(arrayBar[key]).attr('data-transitiongoal', percent).progressbar();
-        DISTANCE += 5000;
     }
 }
 
