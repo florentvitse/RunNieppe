@@ -1,7 +1,6 @@
 /* GLOBALES VARIABLES */
 var map = null;
 var nbPushpins = 0;
-
 var totalDistance = 0;
 var lastPushpinLocation = null;
 
@@ -31,12 +30,15 @@ function getMap()
     //getCurrentLocation();
 
     /* EVENTS */
+
+    // Desactivation of double click for zooming
     Microsoft.Maps.Events.addHandler(map, 'dblclick', 
             function(e) {
                 e.handled = true;
             }
     );
 
+    // Add a handler to function that add a pushpin when click
     Microsoft.Maps.Events.addHandler(map, 'click', 
             function(e) {
               if (e.targetType == "map") {
@@ -49,20 +51,14 @@ function getMap()
               }
             }
     );
-}
 
-function getCurrentLocation()
-{
-    var geoLocationProvider = new Microsoft.Maps.GeoLocationProvider(map);  
+    // Add a handler to function that will change 
+    // other pins in the collection when a new one is added
+    Microsoft.Maps.Events.addHandler(map.entities, 'entityadded', changePins);
 
-    geoLocationProvider.getCurrentPosition({ successCallback: 
-        function(e) {
-            geoLocationProvider.removeAccuracyCircle()
-            currentLocation = e.center
-            alert('Localisation ' + e.center);
-            map.setView({zoom: 16})
-      } 
-    }); 
+    // Add a handler to function that will restore 
+    // a default pin when a new one is removed in the collection 
+    Microsoft.Maps.Events.addHandler(map.entities, 'entityremoved', changeLastPin);
 }
 
 function addPushpin(param)
@@ -99,17 +95,8 @@ function deletePushpin(e)
                 break;
         }
         removeHTMLPushpin();
+        map.setView({center: lastPushpinLocation});
     }
-}
-
-function addPolygon(arrayOfLocations, color)
-{
-	// Create a polygon 
-    var polygon = new Microsoft.Maps.Polygon(arrayOfLocations, 
-    										{fillColor: color,
-    										 strokeColor: color} );
-    // Add the polygon to the map
-    map.entities.push(polygon);
 }
 
 /* HAVERSINE FORMULA */
@@ -134,7 +121,55 @@ function calculateDistance(locationStart, locationEnd)
     }
 }
 
+function changePins(e)
+{
+    var i = 0;
+    for (i = 0; i < e.collection.getLength() - 1; i++) 
+    {
+        pin = e.collection.get(i);
+        pin.setOptions({ icon: "images/blue_pushpin.png" });                      
+    }
+}
 
+function changeLastPin()
+{
+    if(nbPushpins > 0) {
+        map.entities.get(nbPushpins - 1).setOptions({ icon: "images/default_pushpin.png" });
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function getCurrentLocation()
+{
+    var geoLocationProvider = new Microsoft.Maps.GeoLocationProvider(map);  
+
+    geoLocationProvider.getCurrentPosition({ successCallback: 
+        function(e) {
+            geoLocationProvider.removeAccuracyCircle()
+            currentLocation = e.center
+            alert('Localisation ' + e.center);
+            map.setView({zoom: 16})
+      } 
+    }); 
+}
 
 /* DIRECTION SUIVANT LA ROUTE (BUG PRESENT) */
 
