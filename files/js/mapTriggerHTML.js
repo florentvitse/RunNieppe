@@ -19,16 +19,14 @@ function updateProgressBar()
     var arrayBar = $(".progress .progress-bar").get();
     var arrayDistance = [5000, 10000, 15000, 21000, 30000, 42195];
     var distTest = 0;
-       
+     
+    // Determinationde la plus distance à afficher tant que l'on est inférieur à celle-ci   
     while((distTest < arrayDistance.length - 3) && (totalDistance > arrayDistance[distTest]))
     {
         distTest++;
     }
 
-    // Start in the array of distance
-    //alert(distTest);
-    //alert($(labelBar[key]).text());
-
+    // Affichage des barres correspondantes avec les ratios associés
     for (key in arrayBar) {
 
         $(labelBar[key]).text((arrayDistance[distTest + parseInt(key)] / 1000) + " km");
