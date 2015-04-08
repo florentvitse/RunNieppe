@@ -15,11 +15,21 @@ function addHTMLPushpin(distance)
 
 function updateProgressBar()
 {
+    var labelBar = $(".labelBar").get();
     var arrayBar = $(".progress .progress-bar").get();
     var arrayDistance = [5000, 10000, 15000, 21000, 30000, 42195];
+    var distTest = 0;
+       
+    do {
+        distTest++;
+    } while((distTest < arrayDistance.length - 2) && (totalDistance > arrayDistance[distTest]));
+
+    // Start in the array of distance
+    alert(distTest - 1);
+    //alert($(labelBar[key]).text());
 
     for (key in arrayBar) {
-        alert( (totalDistance - (totalDistance % arrayDistance[key])) / arrayDistance[key]);
+
         percent = Math.ceil((totalDistance / arrayDistance[key]) * 100);
         if(percent > 100) {
             percent = 100;
