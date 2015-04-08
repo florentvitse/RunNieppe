@@ -11,7 +11,7 @@
     <title>RunNieppe</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="./css/bootstrap.min.css">
 
     <script src="./js/ie-emulation-modes-warning.js"></script>
 
@@ -23,6 +23,8 @@
 
     <!-- Map Style --> 
     <link href="./css/map.css" rel="stylesheet">
+    <!-- ProgressBar Style -->
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap-progressbar-3.3.2.min.css">
   </head>
 
   <body style="background-color: #e5e5e5;">
@@ -49,14 +51,14 @@
     </nav>
 
     <div class="container">
-      <div class="jumbotron" oncontextmenu="return false;">
+      <div class="jumbotron">
         <div class="row">
           <h2><center>Carte<br><span class="badge">n° 1</span></center></h2>
         </div>
         <hr>
         <div class="row">
           <div class="col-md-12"> 
-            <div id='mapDiv' class="map">
+            <div id='mapDiv' class="map" oncontextmenu="return false;">
             </div>
           <div>
             <br>
@@ -82,19 +84,19 @@
               <div class="pull-right">5 km</div>
               <br>
               <div class="progress">
-                <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="max-width: 100%;">
+                <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" data-transitiongoal="0">
                 </div>
               </div>
               <div class="pull-right">10 km</div>
               <br>
               <div class="progress">
-                <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="max-width: 100%;">
+                <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" data-transitiongoal="0">
                 </div>
               </div>
               <div class="pull-right">15 km</div>
               <br>
               <div class="progress">
-                <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="max-width: 100%;">
+                <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" data-transitiongoal="0">
                 </div>
               </div>
               <!--<div class="progress">
@@ -120,11 +122,15 @@
     <script charset="UTF-8" type="text/javascript" src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&mkt=fr-fr"></script>
     <!-- Map Script --> 
     <script src="./js/map/mapInit.js"></script>
+    <!-- ProgressBar Style -->
+    <script src="./js/bootstrap-progressbar.min.js"></script>
 
     <script>
-              
       getMap();
-            
+      $('.progress .progress-bar').progressbar({display_text: 'center'});  // Activation with Bootstrap 3      
     </script>
+
+    <!-- mapTriggerHTML Script --> 
+    <script src="./js/mapTriggerHTML.js"></script>
   </body>
 </html>
