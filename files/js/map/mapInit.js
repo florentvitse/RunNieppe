@@ -42,7 +42,7 @@ function getMap()
               if (e.targetType == "map") {
                   var point = new Microsoft.Maps.Point(e.getX(), e.getY());
                   var loc = e.target.tryPixelToLocation(point);
-                  addHTMLDiffPushpin(calculateDistance(lastPushpinLocation, loc));
+                  addHTMLPushpin(calculateDistance(lastPushpinLocation, loc));
                   addPushpin(loc);
                   
                   //createDirections(loc);
@@ -98,7 +98,7 @@ function deletePushpin(e)
                 lastPushpinLocation = map.entities.get(nbPushpins - 1).getLocation();
                 break;
         }
-        updateDisplayAfterRemoval();
+        removeHTMLPushpin();
     }
 }
 

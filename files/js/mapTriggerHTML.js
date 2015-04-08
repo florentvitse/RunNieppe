@@ -1,4 +1,4 @@
-function addHTMLDiffPushpin(distance)
+function addHTMLPushpin(distance)
 {
     var percent;
 
@@ -9,41 +9,27 @@ function addHTMLDiffPushpin(distance)
         } else {
             $("#total_distance").text((totalDistance / 1000).toFixed(2) + ' km');
         }
-
-        $(".progress .progress-bar").each(function(i) {
-            switch(i) 
-            {
-                case 0 :
-                    percent = Math.ceil((totalDistance / 5000) * 100);
-                    if(percent > 100) {
-                        percent = 100;
-                        $(this).removeClass("active");
-                    } 
-                    $(this).attr('data-transitiongoal', percent);
-                    break;
-                case 1 :
-                    percent = Math.ceil((totalDistance / 10000) * 100);
-                    if(percent > 100) {
-                        percent = 100;
-                        $(this).removeClass("active");
-                    } 
-                    $(this).attr('data-transitiongoal', percent);
-                    break;
-                case 2 : 
-                    percent = Math.ceil((totalDistance / 15000) * 100);
-                    if(percent > 100) {
-                        percent = 100;
-                        $(this).removeClass("active");
-                    } 
-                    $(this).attr('data-transitiongoal', percent);
-                    break;
-            }
-        })
-        $(".progress .progress-bar").progressbar();
+        updateProgressBar();
     }
 }
 
-function updateDisplayAfterRemoval()
+function updateProgressBar()
+{
+    var arrayBar = $(".progress .progress-bar").get();
+    var DISTANCE = 5000;
+
+    for (key in arrayBar) {
+        percent = Math.ceil((totalDistance / DISTANCE) * 100);
+        if(percent > 100) {
+            percent = 100;
+            $(arrayBar[key]).removeClass("active");
+        } 
+        $(arrayBar[key]).attr('data-transitiongoal', percent).progressbar();
+        DISTANCE += 5000;
+    }
+}
+
+function removeHTMLPushpin()
 {
     if(nbPushpins > 0) {
         if(totalDistance < 1000) {
@@ -52,5 +38,9 @@ function updateDisplayAfterRemoval()
             $("#total_distance").text((totalDistance / 1000).toFixed(2) + ' km');
         }
         $("#table_distance tr:last").remove();
+        updateProgressBar();
+    } 
+    if(nbPushpins === 1) {
+        $(".progress .progress-bar").attr('data-transitiongoal', 0).progressbar();
     }
 }

@@ -53,7 +53,7 @@
     <div class="container">
       <div class="jumbotron">
         <div class="row">
-          <h2><center>Carte<br><span class="badge">n° 1</span></center></h2>
+          <h2><center>Carte<!--<br><span class="badge">n° 1</span>--></center></h2>
         </div>
         <hr>
         <div class="row">
@@ -80,7 +80,7 @@
             </div>
             <div class="col-md-4">
               Distance Total : <em id="total_distance">0.00 m</em>
-              <hr>
+              <br>
               <div class="pull-right">5 km</div>
               <br>
               <div class="progress">
@@ -127,7 +127,7 @@
 
     <script>
       getMap();
-      $('.progress .progress-bar').progressbar({display_text: 'center'});  // Activation with Bootstrap 3      
+      $('.progress .progress-bar').progressbar({display_text: 'center', transition_delay: 100});  // Activation with Bootstrap 3      
     </script>
 
     <!-- mapTriggerHTML Script --> 
