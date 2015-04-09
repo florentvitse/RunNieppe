@@ -19,7 +19,7 @@ function getMap()
 						credentials: "AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0",
 						center: new Microsoft.Maps.Location(50.69752, 2.86048),
                         mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-                        zoom: 16,
+                        zoom: 14,
                         showDashboard: false,
                         enableSearchLogo: false
                      }
