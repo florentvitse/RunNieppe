@@ -191,6 +191,7 @@ function createWalkingRoute()
 
     if (!directionsManager) { createDirectionsManager(); }
     directionsManager.resetDirections();
+    directionsManager.setRequestOptions({ distanceUnit: Microsoft.Maps.Directions.DistanceUnit.kilometers });
     
     // Set Route Mode to walking 
     directionsManager.setRequestOptions({ routeMode: Microsoft.Maps.Directions.RouteMode.walking });
@@ -211,12 +212,18 @@ function createWalkingRoute()
                                          displayStepWarnings: false,
                                          displayTrafficAvoidanceOption: false,
                                          displayWalkingWarning: false,
+                                         itineraryContainer: document.getElementById('directionsItinerary'),
                                          walkingPolylineOptions: { strokeDashArray: "1 0",
                                                                    strokeThickness: 2 },
                                          waypointPushpinOptions: { icon: 'images/default_pushpin.png',
                                                                    text: nbPushpins.toString() }
                                          });
-    alert("oK");
+    for (i = 0; i < map.entities.getLength(); i++) 
+    {
+      pin = map.entities.get(i);
+      if(i === 2) { alert("Je suis une InfoBox"); }  
+      alert(pin);                   
+    }
     directionsManager.calculateDirections();
 
 }
