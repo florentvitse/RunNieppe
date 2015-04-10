@@ -47,7 +47,7 @@ function getMap()
                   addHTMLPushpin(calculateDistance(lastPushpinLocation, loc));
                   addPushpin(loc);
                   
-                  //createDirections(loc);
+                  createDirections();
               }
             }
     );
@@ -124,7 +124,7 @@ function calculateDistance(locationStart, locationEnd)
 function changePins(e)
 {
     var i = 0;
-    for (i = 0; i < e.collection.getLength() - 1; i++) 
+    for (i = 0; i < nbPushpins - 1; i++) 
     {
         pin = e.collection.get(i);
         pin.setOptions({ icon: "images/blue_pushpin.png" });                      
@@ -186,12 +186,10 @@ function createDirectionsManager()
     //directionsUpdatedEventObj = Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', function() { alert("Trajet mis à jour") });
 }
       
-function createWalkingRoute(param)
+function createWalkingRoute()
 {
 
-    if (!directionsManager) {
-        createDirectionsManager();
-    }
+    if (!directionsManager) { createDirectionsManager(); }
     directionsManager.resetDirections();
     
     // Set Route Mode to walking 
@@ -200,21 +198,35 @@ function createWalkingRoute(param)
     var start = new Microsoft.Maps.Directions.Waypoint({ location: lastPushpinLocation });
     directionsManager.addWaypoint(start);
     //var end = new Microsoft.Maps.Directions.Waypoint({ location: new Microsoft.Maps.Location(50.70075, 2.86389) });
-    var end = new Microsoft.Maps.Directions.Waypoint({ location: param });
+    var end = new Microsoft.Maps.Directions.Waypoint({ location: map.entities.get(nbPushpins - 1).getLocation() });
     directionsManager.addWaypoint(end);
     
     // Set the element in which the itinerary will be rendered
-    //directionsManager.setRenderOptions({ itineraryContainer: document.getElementById('directionsItinerary') });
+    directionsManager.setRenderOptions({ autoDisplayDisambiguation: false,
+                                         autoUpdateMapView: false,
+                                         displayManeuverIcons: false,
+                                         displayPostItineraryItemHints: false,
+                                         displayPreItineraryItemHints: false,
+                                         displayRouteSelector: false,
+                                         displayStepWarnings: false,
+                                         displayTrafficAvoidanceOption: false,
+                                         displayWalkingWarning: false,
+                                         walkingPolylineOptions: { strokeDashArray: "1 0",
+                                                                   strokeThickness: 2 },
+                                         waypointPushpinOptions: { icon: 'images/default_pushpin.png',
+                                                                   text: nbPushpins.toString() }
+                                         });
+    alert("oK");
     directionsManager.calculateDirections();
 
 }
 
-function createDirections(param)
+function createDirections()
 {
-    if(nbPushpins != 1) {
+    if(nbPushpins > 1) {
         if (!directionsManager)
         {
-          Microsoft.Maps.loadModule('Microsoft.Maps.Directions', { callback: createWalkingRoute(param) });
+          Microsoft.Maps.loadModule('Microsoft.Maps.Directions', { callback: createWalkingRoute });
         }
         else
         {
