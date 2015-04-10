@@ -26,7 +26,8 @@ function addHTMLPushpin(distance)
                                             + nbPushpins + 
                                             "</b></span></td><td class=\"interval-pushpin interval-pushpin-end\"><span class=\"" + classTextTwo + "\"><b>" 
                                             + (nbPushpins + 1) + 
-                                            "</b></span></td><td><img class=\"pull-right\" src=\"images/path.png\"/><span class=\"pull-right\" style=\"position: relative; top: 20px; left: 130px;\">" + formateDistance(distance) + "</span></td></tr><br><br>");
+                                            "</b></span></td><td><img class=\"pull-right\" src=\"images/path.png\"/><span class=\"pull-right\" style=\"position: relative; top: 20px; left: 130px;\">" 
+                                            + formateDistance(distance) + "</span></td></tr><br><br>");
         
         $("#total_distance").text(formateDistance(totalDistance));
         updateProgressBar();
@@ -71,5 +72,8 @@ function removeHTMLPushpin()
     } 
     if(nbPushpins === 1) {
         $(".progress .progress-bar").attr('data-transitiongoal', 0).progressbar();
+        $(".panel-body").slideUp();
+        $("#intervalTrigger").toggleClass("glyphicon-chevron-up");
+        $("#intervalTrigger").toggleClass("glyphicon-chevron-down");
     }
 }
