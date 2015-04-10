@@ -183,7 +183,17 @@ function createDirectionsManager()
 
 
     //directionsErrorEventObj = Microsoft.Maps.Events.addHandler(directionsManager, 'directionsError', function(arg) { alert("Impossible de calculer le trajet") });
-    //directionsUpdatedEventObj = Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', function() { alert("Trajet mis à jour") });
+    directionsUpdatedEventObj = Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', function() { alert("Trajet mis à jour");
+        for (i = 0; i < map.entities.getLength(); i++) 
+        {
+            pin = map.entities.get(i); 
+            try {
+                alert(pin.getText());   
+            } catch(e) {
+                alert(pin.toString());
+            }
+        }
+    });
 }
       
 function createWalkingRoute()
@@ -216,15 +226,12 @@ function createWalkingRoute()
                                          walkingPolylineOptions: { strokeDashArray: "1 0",
                                                                    strokeThickness: 2 },
                                          waypointPushpinOptions: { icon: 'images/default_pushpin.png',
-                                                                   text: nbPushpins.toString() }
+                                                                   //text: nbPushpins.toString()
+                                                                    text: "Lol"}
                                          });
-    for (i = 0; i < map.entities.getLength(); i++) 
-    {
-      pin = map.entities.get(i);
-      if(i === 2) { alert("Je suis une InfoBox"); }  
-      alert(pin);                   
-    }
+    
     directionsManager.calculateDirections();
+    
 
 }
 
