@@ -9,5 +9,5 @@ https://www.bingmapsportal.com/isdk/ajaxv7
 
 Plugin Used :
   - https://github.com/minddust/bootstrap-progressbar + v0.85
-  - https://github.com/minddust/bootstrap-progressbar + v1.4
+  - https://github.com/eternicode/bootstrap-datepicker + v1.4
 
