@@ -1,27 +1,34 @@
+function formateDistance(param)
+{
+    if(param < 1000) {
+        return (param.toFixed(2) + ' m');
+    } else {
+        return ((param / 1000).toFixed(2) + ' km');
+    }
+}
+
 function addHTMLPushpin(distance)
 {
     var percent;
-
+    var classTextOne = "interval-text",
+        classTextTwo = "interval-text";
     if(distance > 0) {
-        $("#table_distance tr:last").after("<tr><td class=\"interval-pushpin-deb\"><span class=\"interval-text\"><b>" 
+        if(nbPushpins > 8) {
+            if(nbPushpins === 9)
+            {
+                classTextTwo = "interval-text-supten";
+            } else {
+                classTextOne = classTextTwo = "interval-text-supten";
+            }
+        } 
+
+        $("#table_distance tr:last").after("<tr style=\"height: 50px;\"><td class=\"interval-pushpin interval-pushpin-deb\"><span class=\"" + classTextOne + "\"><b>" 
                                             + nbPushpins + 
-                                            "</b></span></td><td class=\"interval-pushpin-end\"><span class=\"interval-text-supten\"><b>" 
+                                            "</b></span></td><td class=\"interval-pushpin interval-pushpin-end\"><span class=\"" + classTextTwo + "\"><b>" 
                                             + (nbPushpins + 1) + 
-                                            "</b></span></td><td>" + distance.toFixed(2) + " m</td></tr>");
-        /*<tr>
-                        <td class="interval-pushpin-deb">
-                          <!--<img src="images/blue_pushpin.png" />-->
-                          <span class="interval-text"><b>10</b></span>
-                        </td>
-                        <td class="interval-pushpin-end">   
-                          <span class="interval-text-supten"><b>9</b></span>
-                        </td> 
-                      </tr>*/
-        if(totalDistance < 1000) {
-            $("#total_distance").text(totalDistance.toFixed(2) + ' m');
-        } else {
-            $("#total_distance").text((totalDistance / 1000).toFixed(2) + ' km');
-        }
+                                            "</b></span></td><td>" + formateDistance(distance) + "</td></tr><br><br>");
+        
+        $("#total_distance").text(formateDistance(totalDistance));
         updateProgressBar();
     }
 }
@@ -58,11 +65,7 @@ function updateProgressBar()
 function removeHTMLPushpin()
 {
     if(nbPushpins > 0) {
-        if(totalDistance < 1000) {
-            $("#total_distance").text(totalDistance.toFixed(2) + ' m');
-        } else {
-            $("#total_distance").text((totalDistance / 1000).toFixed(2) + ' km');
-        }
+        $("#total_distance").text(formateDistance(totalDistance));
         $("#table_distance tr:last").remove();
         updateProgressBar();
     } 
