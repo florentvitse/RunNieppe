@@ -3,7 +3,20 @@ function addHTMLPushpin(distance)
     var percent;
 
     if(distance > 0) {
-        $("#table_distance tr:last").after("<tr><td>" + nbPushpins + "</td><td>" + (nbPushpins + 1) + "</td><td>" + distance.toFixed(2) + " m</td></tr>");
+        $("#table_distance tr:last").after("<tr><td class=\"interval-pushpin-deb\"><span class=\"interval-text\"><b>" 
+                                            + nbPushpins + 
+                                            "</b></span></td><td class=\"interval-pushpin-end\"><span class=\"interval-text-supten\"><b>" 
+                                            + (nbPushpins + 1) + 
+                                            "</b></span></td><td>" + distance.toFixed(2) + " m</td></tr>");
+        /*<tr>
+                        <td class="interval-pushpin-deb">
+                          <!--<img src="images/blue_pushpin.png" />-->
+                          <span class="interval-text"><b>10</b></span>
+                        </td>
+                        <td class="interval-pushpin-end">   
+                          <span class="interval-text-supten"><b>9</b></span>
+                        </td> 
+                      </tr>*/
         if(totalDistance < 1000) {
             $("#total_distance").text(totalDistance.toFixed(2) + ' m');
         } else {

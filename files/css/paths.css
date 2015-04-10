@@ -1,0 +1,33 @@
+.interval-pushpin-deb
+{
+	background-image: url(../images/blue_pushpin.png);
+	background-repeat:no-repeat;
+	position: relative;
+	top: 10px;
+	left: 10px;
+}
+
+.interval-pushpin-end
+{
+	background-image: url(../images/default_pushpin.png);
+	background-repeat:no-repeat;
+	position: relative;
+	top: 10px;
+	left: 10px;
+}
+
+.interval-text
+{
+	position: relative;
+	top: -6px;
+	left: -4px;
+	color: white;
+}
+
+.interval-text-supten
+{
+	position: relative;
+	top: -6px;
+	left: 1.5px;
+	color: white;
+}

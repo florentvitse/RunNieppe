@@ -25,6 +25,8 @@
     <link href="./css/map.css" rel="stylesheet">
     <!-- ProgressBar Style -->
     <link rel="stylesheet" type="text/css" href="./css/bootstrap-progressbar-3.3.2.min.css">
+    <!-- Intervals Style --> 
+    <link href="./css/paths.css" rel="stylesheet">
   </head>
 
   <body style="background-color: #e5e5e5;">
@@ -93,26 +95,31 @@
               </div>
             </div>
           </div>  
-          <h3>Intervalles <span class="glyphicon glyphicon-chevron-down"></span></h3>
           <div class="row">
-            <table id="table_distance" class="table table-hover">
-              <thead>
-                <th>Pushpin de départ
-                </th>
-                <th>Pushpin d'Arrivée
-                </th>
-                <th><i>Distance</i>
-                </th>
-              </thead>
-              <tbody>
-                <!--<tr>
-                  <td colspan="3">
-                    <img src="images/blue_pushpin.png" />
-                      280 m
-                    <img src="images/default_pushpin.png" />
-                  </td> -->
-              </tbody>
-            </table>
+            <div class="col-md-9">
+              <div class="panel panel-info">
+                <div class="panel-heading">Intervalles <span class="glyphicon glyphicon-chevron-down"></span>
+                </div>
+                <div class="panel-body">
+                  <table id="table_distance" class="table table-hover">
+                    <thead>
+                      <th>Départ
+                      </th>
+                      <th>Arrivée
+                      </th>
+                      <th>
+                      </th>
+                    </thead>
+                    <tbody>
+                      
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div> 
+            <div class="col-md-2">
+              <h1><span class="glyphicon glyphicon-time"></span></h1>
+            </div>
           </div>
         </div>
       </div>
