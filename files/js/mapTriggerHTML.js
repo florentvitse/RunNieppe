@@ -22,11 +22,11 @@ function addHTMLPushpin(distance)
             }
         } 
 
-        $("#table_distance tr:last").after("<tr style=\"height: 50px;\"><td class=\"interval-pushpin interval-pushpin-deb\"><span class=\"" + classTextOne + "\"><b>" 
+        $("#table_distance tr:last").after("<tr><td class=\"interval-pushpin interval-pushpin-deb\"><span class=\"" + classTextOne + "\"><b>" 
                                             + nbPushpins + 
                                             "</b></span></td><td class=\"interval-pushpin interval-pushpin-end\"><span class=\"" + classTextTwo + "\"><b>" 
                                             + (nbPushpins + 1) + 
-                                            "</b></span></td><td>" + formateDistance(distance) + "</td></tr><br><br>");
+                                            "</b></span></td><td><img class=\"pull-right\" src=\"images/path.png\"/><span class=\"pull-right\" style=\"position: relative; top: 20px; left: 130px;\">" + formateDistance(distance) + "</span></td></tr><br><br>");
         
         $("#total_distance").text(formateDistance(totalDistance));
         updateProgressBar();

@@ -31,3 +31,8 @@
 	left: -4px;
 	color: white;
 }
+
+#intervalTrigger:hover
+{
+	cursor: pointer;
+}
