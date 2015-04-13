@@ -1,0 +1,23 @@
+SERIES_ID = ID of the serie
+
+
+
+GET ALL INFOS
+
+http://thetvdb.com/api/8AAF5699353D0F73/series/SERIES_ID/all/fr.xml
+
+GET INFO ONE SERIE
+
+http://thetvdb.com/api/8AAF5699353D0F73/series/SERIES_ID/fr.xml
+
+GET ONE EPISODE
+
+http://thetvdb.com/api/8AAF5699353D0F73/series/SERIES_ID/default/SEASON_NUMBER/EPISODE_NUMBER/fr.xml
+
+GET EPISODE FROM ONE SEASON
+
+/**** FETCH IN ALL file ****/
+
+GET SEARCH RESULTS
+
+http://thetvdb.com/api/GetSeries.php?seriesname=%22Dexter%22&language=%22fr%22
