@@ -40,10 +40,12 @@ function getMap()
     Microsoft.Maps.Events.addHandler(map, 'click', 
             function(e) {
               if (e.targetType == "map") {
-                  var point = new Microsoft.Maps.Point(e.getX(), e.getY());
-                  var loc = e.target.tryPixelToLocation(point) ;
-                  //addHTMLPushpin(calculateDistance(lastPushpinLocation, loc));
-                  addPushpin(loc);
+                    var point = new Microsoft.Maps.Point(e.getX(), e.getY());
+                    var loc = e.target.tryPixelToLocation(point) ;
+                    //addHTMLPushpin(calculateDistance(lastPushpinLocation, loc));
+                    //addPushpin(loc);
+
+                    map.getCredentials(function(credentials) { callRestService(credentials, loc); } ); 
               }
             }
     );
@@ -59,19 +61,9 @@ function getMap()
 
 function addPushpin(param) 
 {
-    if(nbPushpins > 1) { map.entities.removeAt(nbPushpins); }
-	// Add a pin to the map
     nbPushpins++;
-    var pin = new Microsoft.Maps.Pushpin(param, {text: nbPushpins.toString()}); 
-    //Microsoft.Maps.Events.addHandler(pin, 'rightclick', deletePushpin);
-    // Add the pin
-    map.entities.push(pin);
-    // Add the line between the last two
-    if(nbPushpins > 1) { 
-        map.getCredentials(function(credentials) {
-            callRestService(credentials, param);
-        }); 
-    }
+    // Add the pin to the map
+    map.entities.push(new Microsoft.Maps.Pushpin(param, {text: nbPushpins.toString()}) );
 
     // Center the map on the location
     map.setView({center: param});
@@ -145,47 +137,54 @@ function changeLastPin()
 
 function callRestService(credentials, param) 
 {   
-    var loc = null;
-    var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes?wp.0=";
+    if(nbPushpins != 0) {
+        if(nbPushpins > 1) {
+            map.entities.removeAt(nbPushpins); 
+        }
 
-    loc = map.entities.get((nbPushpins - 2)).getLocation();
-    routeRequest += loc.latitude + "," + loc.longitude + "&wp.1=";   
-    loc = map.entities.get((nbPushpins - 1)).getLocation();
-    routeRequest += loc.latitude + "," + loc.longitude;   
+        var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes?wp.0=";
 
-    routeRequest += "&routePathOutput=Points&output=json&jsonp=RouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
+        var loc = map.entities.get((nbPushpins - 1)).getLocation();
+        routeRequest += loc.latitude + "," + loc.longitude + "&wp.1=";   
+        routeRequest += param.latitude + "," + param.longitude;   
 
-    var script = document.createElement("script");
-    script.setAttribute("type", "text/javascript");
-    script.setAttribute("src", routeRequest);
-    document.body.appendChild(script);
+        routeRequest += "&routePathOutput=Points&output=json&jsonp=RouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
+
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        script.setAttribute("src", routeRequest);
+        document.body.appendChild(script);
+    } else {
+        addPushpin(param);
+    }
 }
 
 function RouteCallback(result) {
                           
     if (result &&
-       result.resourceSets &&
-       result.resourceSets.length > 0 &&
-       result.resourceSets[0].resources &&
-       result.resourceSets[0].resources.length > 0) {
-       
-         // Set the map view
-         //var bbox = result.resourceSets[0].resources[0].bbox;
-         //var viewBoundaries = Microsoft.Maps.LocationRect.fromLocations(new Microsoft.Maps.Location(bbox[0], bbox[1]), new Microsoft.Maps.Location(bbox[2], bbox[3]));
-         //map.setView({ bounds: viewBoundaries});
+        result.resourceSets &&
+        result.resourceSets.length > 0 &&
+        result.resourceSets[0].resources &&
+        result.resourceSets[0].resources.length > 0) {
 
-         // Draw the route
-         var routeline = result.resourceSets[0].resources[0].routePath.line;
-         if(nbPushpins === 2) { routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[0][0], routeline.coordinates[0][1]) ); }
-         for (var i = 1; i < routeline.coordinates.length; i++) {
+        // Add the new points on the route
+        var routeline = result.resourceSets[0].resources[0].routePath.line;
+        // It's the first line that we draw
+        if(nbPushpins === 1) { 
+            routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[0][0], routeline.coordinates[0][1]) );
+        }
+        // Add of each calculated points
+        for (i = 1; i < routeline.coordinates.length; i++) {
+            routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[i][0], routeline.coordinates[i][1]) );
+        }
+         
+        // Redraw the full route on the map
+        var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200, 0, 0, 200)} );
 
-             routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[i][0], routeline.coordinates[i][1]) );
-         }
-         
-         // Draw the route on the map
-         var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200,0,0,200)});
-         map.entities.push(routeshape);
-         
+        // AJOUT PUSHPIN
+        //alert( result.resourceSets[0].resources[0].travelDistance );
+        addPushpin(new Microsoft.Maps.Location(routeline.coordinates[i - 1][0], routeline.coordinates[i - 1][1])); 
+        map.entities.push(routeshape);     
      }
 }
 
