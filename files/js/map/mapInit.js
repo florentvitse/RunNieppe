@@ -88,8 +88,7 @@ function deletePushpin(e)
                 map.getCredentials(callDeleteRestService);
             } else {
                 // CENTRAGE VIEW PUSHPIN 1
-                totalDistance = 0;
-                removeHTMLPushpin();
+                removeHTMLPushpin();    
             }
         }
         removeHTMLPushpin();
