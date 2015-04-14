@@ -46,6 +46,8 @@ function getMap()
                   var loc = e.target.tryPixelToLocation(point);
                   addHTMLPushpin(calculateDistance(lastPushpinLocation, loc));
                   addPushpin(loc);
+
+                  CallRestService();
               }
             }
     );
@@ -135,6 +137,52 @@ function changeLastPin()
         map.entities.get(nbPushpins - 1).setOptions({ icon: "images/default_pushpin.png" });
     }
 }
+
+
+/********* RECUPERATION ITINERAIRE ENTRE DEUX POINTS PLACÉS **********/
+
+function CallRestService() 
+{
+    var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes?wp.0=50.69856655212543,2.8615556441095213&wp.1=50.69725291263327,2.857585240151672&routePathOutput=Points&output=json&jsonp=RouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
+
+    var script = document.createElement("script");
+    script.setAttribute("type", "text/javascript");
+    script.setAttribute("src", routeRequest);
+    document.body.appendChild(script);
+}
+
+function RouteCallback(result) {
+                          
+    if (result &&
+       result.resourceSets &&
+       result.resourceSets.length > 0 &&
+       result.resourceSets[0].resources &&
+       result.resourceSets[0].resources.length > 0) {
+       
+         // Set the map view
+         //var bbox = result.resourceSets[0].resources[0].bbox;
+         //var viewBoundaries = Microsoft.Maps.LocationRect.fromLocations(new Microsoft.Maps.Location(bbox[0], bbox[1]), new Microsoft.Maps.Location(bbox[2], bbox[3]));
+         //map.setView({ bounds: viewBoundaries});
+
+
+         // Draw the route
+         var routeline = result.resourceSets[0].resources[0].routePath.line;
+         var routepoints = new Array();
+         
+         for (var i = 0; i < routeline.coordinates.length; i++) {
+
+             routepoints[i] = new Microsoft.Maps.Location(routeline.coordinates[i][0], routeline.coordinates[i][1]);
+         }
+
+         
+         // Draw the route on the map
+         var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200,0,0,200)});
+         map.entities.push(routeshape);
+         
+     }
+}
+
+
 
 /**************** À TESTER ***********************/
 
