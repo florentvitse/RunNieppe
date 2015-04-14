@@ -82,6 +82,7 @@ function deletePushpin(e)
             // We gonna start a new line
             if(nbPushpins === 2) { 
                 routepoints = new Array();
+                totalDistance = 0;
             }
             map.entities.removeAt(nbPushpins); 
             map.entities.removeAt(nbPushpins - 1); 
@@ -89,6 +90,8 @@ function deletePushpin(e)
             // Still more than two pushpins, we continue
             if(nbPushpins > 1) {
                 map.getCredentials(callDeleteRestService);
+            } else {
+                // CENTRAGE VIEW PUSHPIN 1
             }
         }
 
@@ -184,8 +187,8 @@ function RouteCallback(result) {
         var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200, 0, 0, 200)} );
 
         // AJOUT PUSHPIN
-        totalDistance += result.resourceSets[0].resources[0].travelDistance;
-        alert( result.resourceSets[0].resources[0].travelDistance );
+        totalDistance += (result.resourceSets[0].resources[0].travelDistance * 1000);
+        alert( totalDistance );
         addPushpin(new Microsoft.Maps.Location(routeline.coordinates[i - 1][0], routeline.coordinates[i - 1][1])); 
         map.entities.push(routeshape);     
      }
@@ -226,15 +229,14 @@ function DeleteRouteCallback(result) {
         }
          
         // Redraw the full route on the map
-        totalDistance = result.resourceSets[0].resources[0].travelDistance;
-        alert( result.resourceSets[0].resources[0].travelDistance );
+        totalDistance = result.resourceSets[0].resources[0].travelDistance * 1000;
+        alert( totalDistance );
         var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200, 0, 0, 200)} );
         map.entities.push(routeshape);  
 
         map.setView({center: new Microsoft.Maps.Location(routeline.coordinates[i][0], routeline.coordinates[i][1]) });   
      }
 }
-
 
 /**************** À TESTER ***********************/
 
