@@ -52,11 +52,11 @@ function getMap()
 
     // Add a handler to function that will change 
     // other pins in the collection when a new one is added
-    //Microsoft.Maps.Events.addHandler(map.entities, 'entityadded', changePins);
+    Microsoft.Maps.Events.addHandler(map.entities, 'entityadded', changePins);
 
     // Add a handler to function that will restore 
     // a default pin when a new one is removed in the collection 
-    //Microsoft.Maps.Events.addHandler(map.entities, 'entityremoved', changeLastPin);
+    Microsoft.Maps.Events.addHandler(map.entities, 'entityremoved', changeLastPin);
 }
 
 function addPushpin(param) 
@@ -76,18 +76,23 @@ function deletePushpin(e)
     {
         if(nbPushpins === 1) {
             map.entities.clear();
+            nbPushpins = 0;
             totalDistance = 0;
         } else {
+            // We gonna start a new line
+            if(nbPushpins === 2) { 
+                routepoints = new Array();
+            }
             map.entities.removeAt(nbPushpins); 
             map.entities.removeAt(nbPushpins - 1); 
             nbPushpins--;
+            // Still more than two pushpins, we continue
             if(nbPushpins > 1) {
                 map.getCredentials(callDeleteRestService);
             }
         }
 
         //removeHTMLPushpin();
-        //map.setView({center: lastPushpinLocation});
     }
 }
 
@@ -124,8 +129,8 @@ function changePins(e)
 
 function changeLastPin()
 {
-    if(nbPushpins > 0) {
-        map.entities.get(nbPushpins - 1).setOptions({ icon: "images/default_pushpin.png" });
+    if(nbPushpins > 1) {
+        map.entities.get(nbPushpins - 2).setOptions({ icon: "images/default_pushpin.png" });
     }
 }
 
@@ -224,7 +229,9 @@ function DeleteRouteCallback(result) {
         totalDistance = result.resourceSets[0].resources[0].travelDistance;
         alert( result.resourceSets[0].resources[0].travelDistance );
         var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200, 0, 0, 200)} );
-        map.entities.push(routeshape);     
+        map.entities.push(routeshape);  
+
+        map.setView({center: new Microsoft.Maps.Location(routeline.coordinates[i][0], routeline.coordinates[i][1]) });   
      }
 }
 
