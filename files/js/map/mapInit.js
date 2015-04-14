@@ -44,10 +44,8 @@ function getMap()
               if (e.targetType == "map") {
                   var point = new Microsoft.Maps.Point(e.getX(), e.getY());
                   var loc = e.target.tryPixelToLocation(point);
-                  addHTMLPushpin(calculateDistance(lastPushpinLocation, loc));
+                  //addHTMLPushpin(calculateDistance(lastPushpinLocation, loc));
                   addPushpin(loc);
-
-                  CallRestService();
               }
             }
     );
@@ -61,13 +59,21 @@ function getMap()
     Microsoft.Maps.Events.addHandler(map.entities, 'entityremoved', changeLastPin);
 }
 
-function addPushpin(param)
+function addPushpin(param) 
 {
 	// Add a pin to the map
     nbPushpins++;
     var pin = new Microsoft.Maps.Pushpin(param, {text: nbPushpins.toString()}); 
     Microsoft.Maps.Events.addHandler(pin, 'rightclick', deletePushpin);
+    // Add the pin
     map.entities.push(pin);
+    // Add the line between the last two
+    if(nbPushpins > 1) { 
+        map.getCredentials(function(credentials) {
+            callRestService(credentials, param);
+        }); 
+    }
+    // Update the last pin added location
     lastPushpinLocation = param;
 
     // Center the map on the location
@@ -94,7 +100,7 @@ function deletePushpin(e)
                 lastPushpinLocation = map.entities.get(nbPushpins - 1).getLocation();
                 break;
         }
-        removeHTMLPushpin();
+        //removeHTMLPushpin();
         map.setView({center: lastPushpinLocation});
     }
 }
@@ -141,14 +147,20 @@ function changeLastPin()
 
 /********* RECUPERATION ITINERAIRE ENTRE DEUX POINTS PLACÉS **********/
 
-function CallRestService() 
+function callRestService(credentials, param) 
 {
-    var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes?wp.0=50.69856655212543,2.8615556441095213&wp.1=50.69725291263327,2.857585240151672&routePathOutput=Points&output=json&jsonp=RouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
+    alert(credentials);
+    alert(param);
+
+    var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes?wp.0="
+                        + lastPushpinLocation.latitude + "," + lastPushpinLocation.longitude + 
+                        "&wp.1=" + param.latitude + "," + param.longitude + 
+                        "&routePathOutput=Points&output=json&jsonp=RouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
 
     var script = document.createElement("script");
     script.setAttribute("type", "text/javascript");
     script.setAttribute("src", routeRequest);
-    document.body.appendChild(script);
+    //document.body.appendChild(script);
 }
 
 function RouteCallback(result) {
