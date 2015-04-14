@@ -75,6 +75,12 @@ function addPushpin(param)
 
     // Center the map on the location
     map.setView({center: param});
+
+    // FOR ACCESSING ALL THE LOCATION WITH NO ARRAY RETAINED
+    for (i = 0; i < nbPushpins; i++) 
+    {
+        alert(map.entities.get(i).getLocation());                      
+    }
 }
 
 function deletePushpin(e)
@@ -126,7 +132,6 @@ function calculateDistance(locationStart, locationEnd)
 
 function changePins(e)
 {
-    var i = 0;
     for (i = 0; i < nbPushpins - 1; i++) 
     {
         pin = e.collection.get(i);
