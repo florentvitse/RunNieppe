@@ -81,7 +81,6 @@ function deletePushpin(e)
             map.entities.removeAt(nbPushpins); 
             map.entities.removeAt(nbPushpins - 1); 
             routepoints = new Array();
-            totalDistance = 0;
             nbPushpins--;
 
             // Still more than two pushpins, we continue
@@ -89,6 +88,8 @@ function deletePushpin(e)
                 map.getCredentials(callDeleteRestService);
             } else {
                 // CENTRAGE VIEW PUSHPIN 1
+                totalDistance = 0;
+                removeHTMLPushpin();
             }
         }
         removeHTMLPushpin();
@@ -200,7 +201,6 @@ function callDeleteRestService(credentials)
         loc = map.entities.get(i).getLocation();
         routeRequest += "wp." + i + "=" + loc.latitude + "," + loc.longitude + "&";                 
     }
-    alert(routeRequest);
     routeRequest += "routePathOutput=Points&output=json&jsonp=DeleteRouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
 
     var script = document.createElement("script");
@@ -228,6 +228,7 @@ function DeleteRouteCallback(result) {
          
         // Redraw the full route on the map
         totalDistance = result.resourceSets[0].resources[0].travelDistance * 1000;
+        removeHTMLPushpin();
         var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200, 0, 0, 200)} );
         map.entities.push(routeshape);  
 
