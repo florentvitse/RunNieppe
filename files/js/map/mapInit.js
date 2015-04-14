@@ -146,17 +146,15 @@ function changeLastPin()
 function callRestService(credentials, param) 
 {   
     var loc = null;
-    var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes?";
+    var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes?wp.0=";
 
-    for (i = 0; i < nbPushpins; i++) 
-    {
-        loc = map.entities.get(i).getLocation();
-        routeRequest += "wp." + i + "=" + loc.latitude + "," + loc.longitude + "&";                 
-    }
+    loc = map.entities.get((nbPushpins - 2)).getLocation();
+    routeRequest += loc.latitude + "," + loc.longitude + "&wp.1=";   
+    loc = map.entities.get((nbPushpins - 1)).getLocation();
+    routeRequest += loc.latitude + "," + loc.longitude;   
 
-    routeRequest += "routePathOutput=Points&output=json&jsonp=RouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
+    routeRequest += "&routePathOutput=Points&output=json&jsonp=RouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
     alert(routeRequest);
-    console.log(routeRequest);
 
     var script = document.createElement("script");
     script.setAttribute("type", "text/javascript");
@@ -180,7 +178,7 @@ function RouteCallback(result) {
          // Draw the route
          var routeline = result.resourceSets[0].resources[0].routePath.line;
          
-         for (i = 0; i < routeline.coordinates.length; i++) {
+         for (var i = 0; i < routeline.coordinates.length; i++) {
 
              routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[i][0], routeline.coordinates[i][1]) );
          }
