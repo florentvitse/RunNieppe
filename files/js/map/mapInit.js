@@ -19,7 +19,7 @@ function getMap()
 						credentials: "AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0",
 						center: new Microsoft.Maps.Location(50.69752, 2.86048),
                         mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-                        zoom: 14,
+                        zoom: 15,
                         showDashboard: false,
                         enableSearchLogo: false
                      }
@@ -46,8 +46,6 @@ function getMap()
                   var loc = e.target.tryPixelToLocation(point);
                   addHTMLPushpin(calculateDistance(lastPushpinLocation, loc));
                   addPushpin(loc);
-                  
-                  createDirections();
               }
             }
     );
@@ -138,24 +136,7 @@ function changeLastPin()
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/**************** À TESTER ***********************/
 
 function getCurrentLocation()
 {
@@ -169,82 +150,4 @@ function getCurrentLocation()
             map.setView({zoom: 16})
       } 
     }); 
-}
-
-/* DIRECTION SUIVANT LA ROUTE (BUG PRESENT) */
-
-function createDirectionsManager()
-{
-    if (!directionsManager) 
-    {
-        directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
-    }
-    directionsManager.resetDirections();
-
-
-    //directionsErrorEventObj = Microsoft.Maps.Events.addHandler(directionsManager, 'directionsError', function(arg) { alert("Impossible de calculer le trajet") });
-    directionsUpdatedEventObj = Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', function() { alert("Trajet mis à jour");
-        for (i = 0; i < map.entities.getLength(); i++) 
-        {
-            pin = map.entities.get(i); 
-            try {
-                alert(pin.getText());   
-            } catch(e) {
-                alert(pin.toString());
-            }
-        }
-    });
-}
-      
-function createWalkingRoute()
-{
-
-    if (!directionsManager) { createDirectionsManager(); }
-    directionsManager.resetDirections();
-    directionsManager.setRequestOptions({ distanceUnit: Microsoft.Maps.Directions.DistanceUnit.kilometers });
-    
-    // Set Route Mode to walking 
-    directionsManager.setRequestOptions({ routeMode: Microsoft.Maps.Directions.RouteMode.walking });
-    //var start = new Microsoft.Maps.Directions.Waypoint({ location: new Microsoft.Maps.Location(50.69907, 2.86194) });
-    var start = new Microsoft.Maps.Directions.Waypoint({ location: lastPushpinLocation });
-    directionsManager.addWaypoint(start);
-    //var end = new Microsoft.Maps.Directions.Waypoint({ location: new Microsoft.Maps.Location(50.70075, 2.86389) });
-    var end = new Microsoft.Maps.Directions.Waypoint({ location: map.entities.get(nbPushpins - 1).getLocation() });
-    directionsManager.addWaypoint(end);
-    
-    // Set the element in which the itinerary will be rendered
-    directionsManager.setRenderOptions({ autoDisplayDisambiguation: false,
-                                         autoUpdateMapView: false,
-                                         displayManeuverIcons: false,
-                                         displayPostItineraryItemHints: false,
-                                         displayPreItineraryItemHints: false,
-                                         displayRouteSelector: false,
-                                         displayStepWarnings: false,
-                                         displayTrafficAvoidanceOption: false,
-                                         displayWalkingWarning: false,
-                                         itineraryContainer: document.getElementById('directionsItinerary'),
-                                         walkingPolylineOptions: { strokeDashArray: "1 0",
-                                                                   strokeThickness: 2 },
-                                         waypointPushpinOptions: { icon: 'images/default_pushpin.png',
-                                                                   //text: nbPushpins.toString()
-                                                                    text: "Lol"}
-                                         });
-    
-    directionsManager.calculateDirections();
-    
-
-}
-
-function createDirections()
-{
-    if(nbPushpins > 1) {
-        if (!directionsManager)
-        {
-          Microsoft.Maps.loadModule('Microsoft.Maps.Directions', { callback: createWalkingRoute });
-        }
-        else
-        {
-          createWalkingRoute();
-        }
-    }
 }
