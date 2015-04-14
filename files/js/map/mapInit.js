@@ -2,7 +2,6 @@
 var map = null;
 var nbPushpins = 0;
 var totalDistance = 0;
-var pushpinLocation = new Array();
 var routepoints = new Array();
 
 var currentLocation = null;
@@ -42,9 +41,9 @@ function getMap()
             function(e) {
               if (e.targetType == "map") {
                   var point = new Microsoft.Maps.Point(e.getX(), e.getY());
-                  pushpinLocation.push( e.target.tryPixelToLocation(point) );
+                  var loc = e.target.tryPixelToLocation(point) ;
                   //addHTMLPushpin(calculateDistance(lastPushpinLocation, loc));
-                  addPushpin(pushpinLocation[nbPushpins]);
+                  addPushpin(loc);
               }
             }
     );
@@ -60,6 +59,7 @@ function getMap()
 
 function addPushpin(param) 
 {
+    if(nbPushpins > 1) { map.entities.removeAt(nbPushpins); }
 	// Add a pin to the map
     nbPushpins++;
     var pin = new Microsoft.Maps.Pushpin(param, {text: nbPushpins.toString()}); 
@@ -67,20 +67,14 @@ function addPushpin(param)
     // Add the pin
     map.entities.push(pin);
     // Add the line between the last two
-    /*if(nbPushpins > 1) { 
+    if(nbPushpins > 1) { 
         map.getCredentials(function(credentials) {
             callRestService(credentials, param);
         }); 
-    }*/
+    }
 
     // Center the map on the location
     map.setView({center: param});
-
-    // FOR ACCESSING ALL THE LOCATION WITH NO ARRAY RETAINED
-    for (i = 0; i < nbPushpins; i++) 
-    {
-        alert(map.entities.get(i).getLocation());                      
-    }
 }
 
 function deletePushpin(e)
@@ -103,7 +97,7 @@ function deletePushpin(e)
                 lastPushpinLocation = map.entities.get(nbPushpins - 1).getLocation();
                 break;
         }
-        //removeHTMLPushpin();
+        removeHTMLPushpin();
         map.setView({center: lastPushpinLocation});
     }
 }
@@ -150,16 +144,23 @@ function changeLastPin()
 /********* RECUPERATION ITINERAIRE ENTRE DEUX POINTS PLACÉS **********/
 
 function callRestService(credentials, param) 
-{
-    var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes?wp.0="
-                        + lastPushpinLocation.latitude + "," + lastPushpinLocation.longitude + 
-                        "&wp.1=" + param.latitude + "," + param.longitude + 
-                        "&routePathOutput=Points&output=json&jsonp=RouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
+{   
+    var loc = null;
+    var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes?";
+
+    for (i = 0; i < nbPushpins; i++) 
+    {
+        loc = map.entities.get(i).getLocation();
+        routeRequest += "wp." + i + "=" + loc.latitude + "," + loc.longitude + "&";                 
+    }
+
+    routeRequest += "routePathOutput=Points&output=json&jsonp=RouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
+    alert(routeRequest);
+    console.log(routeRequest);
 
     var script = document.createElement("script");
     script.setAttribute("type", "text/javascript");
     script.setAttribute("src", routeRequest);
-    alert(routeRequest);
     document.body.appendChild(script);
 }
 
@@ -176,12 +177,10 @@ function RouteCallback(result) {
          //var viewBoundaries = Microsoft.Maps.LocationRect.fromLocations(new Microsoft.Maps.Location(bbox[0], bbox[1]), new Microsoft.Maps.Location(bbox[2], bbox[3]));
          //map.setView({ bounds: viewBoundaries});
 
-
          // Draw the route
          var routeline = result.resourceSets[0].resources[0].routePath.line;
-         //var routepoints = new Array();
          
-         for (var i = 0; i < routeline.coordinates.length; i++) {
+         for (i = 0; i < routeline.coordinates.length; i++) {
 
              routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[i][0], routeline.coordinates[i][1]) );
          }
@@ -189,7 +188,7 @@ function RouteCallback(result) {
          
          // Draw the route on the map
          var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200,0,0,200)});
-         if(nbPushpins === 2) { map.entities.push(routeshape); }
+         map.entities.push(routeshape);
          
      }
 }
