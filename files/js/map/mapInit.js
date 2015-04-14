@@ -42,9 +42,6 @@ function getMap()
               if (e.targetType == "map") {
                     var point = new Microsoft.Maps.Point(e.getX(), e.getY());
                     var loc = e.target.tryPixelToLocation(point) ;
-                    //addHTMLPushpin(calculateDistance(lastPushpinLocation, loc));
-                    //addPushpin(loc);
-
                     map.getCredentials(function(credentials) { callRestService(credentials, loc); } ); 
               }
             }
@@ -78,15 +75,15 @@ function deletePushpin(e)
             map.entities.clear();
             nbPushpins = 0;
             totalDistance = 0;
+            routepoints = new Array();
         } else {
             // We gonna start a new line
-            if(nbPushpins === 2) { 
-                routepoints = new Array();
-                totalDistance = 0;
-            }
             map.entities.removeAt(nbPushpins); 
             map.entities.removeAt(nbPushpins - 1); 
+            routepoints = new Array();
+            totalDistance = 0;
             nbPushpins--;
+
             // Still more than two pushpins, we continue
             if(nbPushpins > 1) {
                 map.getCredentials(callDeleteRestService);
@@ -94,8 +91,7 @@ function deletePushpin(e)
                 // CENTRAGE VIEW PUSHPIN 1
             }
         }
-
-        //removeHTMLPushpin();
+        removeHTMLPushpin();
     }
 }
 
@@ -187,8 +183,9 @@ function RouteCallback(result) {
         var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200, 0, 0, 200)} );
 
         // AJOUT PUSHPIN
-        totalDistance += (result.resourceSets[0].resources[0].travelDistance * 1000);
-        alert( totalDistance );
+        var distance = result.resourceSets[0].resources[0].travelDistance * 1000;
+        totalDistance += distance;
+        addHTMLPushpin(distance);
         addPushpin(new Microsoft.Maps.Location(routeline.coordinates[i - 1][0], routeline.coordinates[i - 1][1])); 
         map.entities.push(routeshape);     
      }
@@ -196,14 +193,15 @@ function RouteCallback(result) {
 
 function callDeleteRestService(credentials) 
 {   
-    var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes?wp.0=";
+    var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes?";
 
-    var loc = map.entities.get(0).getLocation();
-    routeRequest += loc.latitude + "," + loc.longitude + "&wp.1="; 
-    var loc = map.entities.get(nbPushpins - 1).getLocation();  
-    routeRequest += loc.latitude + "," + loc.longitude;   
-
-    routeRequest += "&routePathOutput=Points&output=json&jsonp=DeleteRouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
+    for (i = 0; i < nbPushpins; i++) 
+    {
+        loc = map.entities.get(i).getLocation();
+        routeRequest += "wp." + i + "=" + loc.latitude + "," + loc.longitude + "&";                 
+    }
+    alert(routeRequest);
+    routeRequest += "routePathOutput=Points&output=json&jsonp=DeleteRouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
 
     var script = document.createElement("script");
     script.setAttribute("type", "text/javascript");
@@ -230,7 +228,6 @@ function DeleteRouteCallback(result) {
          
         // Redraw the full route on the map
         totalDistance = result.resourceSets[0].resources[0].travelDistance * 1000;
-        alert( totalDistance );
         var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200, 0, 0, 200)} );
         map.entities.push(routeshape);  
 
