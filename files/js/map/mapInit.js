@@ -154,7 +154,6 @@ function callRestService(credentials, param)
     routeRequest += loc.latitude + "," + loc.longitude;   
 
     routeRequest += "&routePathOutput=Points&output=json&jsonp=RouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
-    alert(routeRequest);
 
     var script = document.createElement("script");
     script.setAttribute("type", "text/javascript");
@@ -177,12 +176,11 @@ function RouteCallback(result) {
 
          // Draw the route
          var routeline = result.resourceSets[0].resources[0].routePath.line;
-         
-         for (var i = 0; i < routeline.coordinates.length; i++) {
+         if(nbPushpins === 2) { routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[0][0], routeline.coordinates[0][1]) ); }
+         for (var i = 1; i < routeline.coordinates.length; i++) {
 
              routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[i][0], routeline.coordinates[i][1]) );
          }
-
          
          // Draw the route on the map
          var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200,0,0,200)});
