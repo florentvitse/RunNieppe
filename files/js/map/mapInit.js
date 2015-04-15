@@ -140,7 +140,7 @@ function callRestService(credentials, param)
             map.entities.removeAt(nbPushpins); 
         }
 
-        var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes?wp.0=";
+        var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes/Walking?wp.0=";
 
         var loc = map.entities.get((nbPushpins - 1)).getLocation();
         routeRequest += loc.latitude + "," + loc.longitude + "&wp.1=";   
@@ -192,7 +192,7 @@ function RouteCallback(result) {
 
 function callDeleteRestService(credentials) 
 {   
-    var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes?";
+    var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes/Walking?";
 
     for (i = 0; i < nbPushpins; i++) 
     {
