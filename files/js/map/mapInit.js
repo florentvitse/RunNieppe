@@ -71,24 +71,24 @@ function deletePushpin(e)
 {
     if(parseInt(e.target.getText()) === nbPushpins)
     {
-        /*if(nbPushpins === 1) {
-            map.entities.clear();
-            nbPushpins = 0;
-            totalDistance = 0;
-        } else {*/
-            // We gonna start a new line
-            map.entities.removeAt(nbPushpins); 
-            map.entities.removeAt(nbPushpins - 1); 
-            nbPushpins--;
-            routepoints = new Array();
-            
-            if(nbPushpins > 1) {
-                map.getCredentials(callDeleteRestService); 
-            } else { 
-                totalDistance = 0; 
-            } 
-        //}
-            removeHTMLPushpin();
+        // We gonna start a new line
+        map.entities.removeAt(nbPushpins); 
+        map.entities.removeAt(nbPushpins - 1); 
+        nbPushpins--;
+        routepoints = new Array();
+
+        if(nbPushpins > 1) {
+            map.getCredentials(callDeleteRestService); 
+        } else { 
+            if(nbPushpins !== 0) {
+                // Center the view on the previous pushpin
+                var loc = map.entities.get(0).getLocation();
+                map.setView({center: new Microsoft.Maps.Location(loc.latitude, loc.longitude) }); 
+            }
+
+            totalDistance = 0; 
+        } 
+        removeHTMLPushpin();
     }
 }
 
@@ -171,6 +171,8 @@ function RouteCallback(result) {
         if(nbPushpins === 1) { 
             routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[0][0], routeline.coordinates[0][1]) );
         }
+
+        var i = 0;
         // Add of each calculated points
         for (i = 1; i < routeline.coordinates.length; i++) {
             routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[i][0], routeline.coordinates[i][1]) );
@@ -216,6 +218,7 @@ function DeleteRouteCallback(result) {
         // Add the new points on the route
         var routeline = result.resourceSets[0].resources[0].routePath.line;
 
+        var i = 0;
         // Add of each calculated points
         for (i = 0; i < routeline.coordinates.length; i++) {
             routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[i][0], routeline.coordinates[i][1]) );
@@ -226,7 +229,7 @@ function DeleteRouteCallback(result) {
         var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200, 0, 0, 200)} );
         map.entities.push(routeshape);  
 
-        map.setView({center: new Microsoft.Maps.Location(routeline.coordinates[i][0], routeline.coordinates[i][1]) });   
+        map.setView({center: new Microsoft.Maps.Location(routeline.coordinates[i - 1][0], routeline.coordinates[i - 1][1]) });   
      }
 }
 
