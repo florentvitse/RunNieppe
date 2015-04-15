@@ -65,10 +65,11 @@ function updateProgressBar()
 
 function removeHTMLPushpin()
 {
+    $("#total_distance").text(formateDistance(totalDistance));
+    updateProgressBar();
+    
     if(nbPushpins > 0) {
-        $("#total_distance").text(formateDistance(totalDistance));
         $("#table_distance tr:last").remove();
-        updateProgressBar();
     } 
     if(nbPushpins === 1) {
         $(".progress .progress-bar").attr('data-transitiongoal', 0).progressbar();
