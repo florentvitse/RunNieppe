@@ -148,8 +148,8 @@ function callRestService(credentials, param)
 
         // Add the waypoints for the route, lastPushpin present on the map and where we just clicked
         var loc = map.entities.get((nbPushpins - 1)).getLocation();
-        routeRequest += loc.latitude + "," + loc.longitude + "&wp.1=";   
-        routeRequest += parseFloat(param.latitude.toFixed(6)) + "," + parseFloat(param.longitude.toFixed(6));   
+        routeRequest += loc.latitude + ',' + loc.longitude + "&wp.1=";   
+        routeRequest += parseFloat(param.latitude.toFixed(6)) + ',' + parseFloat(param.longitude.toFixed(6));   
 
         routeRequest += "&routePathOutput=Points&output=json&jsonp=RouteCallback&key=" + credentials;
 
@@ -207,7 +207,7 @@ function callDeleteRestService(credentials)
     for (i = 0; i < nbPushpins; i++) 
     {
         loc = map.entities.get(i).getLocation();
-        routeRequest += "wp." + i + "=" + loc.latitude + "," + loc.longitude + "&";                 
+        routeRequest += "wp." + i + '=' + loc.latitude + ',' + loc.longitude + '&';                 
     }
     routeRequest += "routePathOutput=Points&output=json&jsonp=DeleteRouteCallback&key=" + credentials;
 
