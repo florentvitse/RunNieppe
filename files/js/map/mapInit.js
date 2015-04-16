@@ -24,8 +24,11 @@ function getMap()
 
 	map = new Microsoft.Maps.Map(document.getElementById("mapDiv"), mapOptions);
 
-    /* A TESTER SUR ORDI PERSO */
-    //getCurrentLocation();
+    /* WORKS, A TESTER SUR ORDI PERSO */
+    /*if(map != null)
+    {
+        getCurrentLocation();
+    }*/
 
     /* EVENTS */
 
@@ -52,7 +55,7 @@ function getMap()
     Microsoft.Maps.Events.addHandler(map.entities, 'entityadded', changePins);
 
     // Add a handler to function that will restore 
-    // a default pin when a new one is removed in the collection 
+    // a default pin for the one before last when the last is removed
     Microsoft.Maps.Events.addHandler(map.entities, 'entityremoved', changeLastPin);
 }
 
@@ -137,26 +140,30 @@ function callRestService(credentials, param)
 {   
     if(nbPushpins != 0) {
         if(nbPushpins > 1) {
+            // Removal of the Polyline of Map's entities
             map.entities.removeAt(nbPushpins); 
         }
 
         var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes/Walking?wp.0=";
 
+        // Add the waypoints for the route, lastPushpin present on the map and where we just clicked
         var loc = map.entities.get((nbPushpins - 1)).getLocation();
         routeRequest += loc.latitude + "," + loc.longitude + "&wp.1=";   
-        routeRequest += param.latitude + "," + param.longitude;   
+        routeRequest += parseFloat(param.latitude.toFixed(6)) + "," + parseFloat(param.longitude.toFixed(6));   
 
-        routeRequest += "&routePathOutput=Points&output=json&jsonp=RouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
+        routeRequest += "&routePathOutput=Points&output=json&jsonp=RouteCallback&key=" + credentials;
 
+        // Add the script to the page for evaluation
         var script = document.createElement("script");
         script.setAttribute("type", "text/javascript");
         script.setAttribute("src", routeRequest);
         document.body.appendChild(script);
     } else {
-        addPushpin(param);
+        addPushpin(new Microsoft.Maps.Location( parseFloat(param.latitude.toFixed(6)), parseFloat(param.longitude.toFixed(6)) ) );
     }
 }
 
+// Evaluate the script and fetching data
 function RouteCallback(result) {
                           
     if (result &&
@@ -181,11 +188,13 @@ function RouteCallback(result) {
         // Redraw the full route on the map
         var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200, 0, 0, 200)} );
 
-        // AJOUT PUSHPIN
+        // Add of the Pushpin
         var distance = result.resourceSets[0].resources[0].travelDistance * 1000;
+        addPushpin(new Microsoft.Maps.Location(routeline.coordinates[i - 1][0], routeline.coordinates[i - 1][1])); 
         totalDistance += distance;
         addHTMLPushpin(distance);
-        addPushpin(new Microsoft.Maps.Location(routeline.coordinates[i - 1][0], routeline.coordinates[i - 1][1])); 
+
+        // Re-Add of the Polyline on the Map
         map.entities.push(routeshape);     
      }
 }
@@ -194,12 +203,13 @@ function callDeleteRestService(credentials)
 {   
     var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes/Walking?";
 
+    // Add all the waypoints (ndlr. Pushpins on the Map) in the route
     for (i = 0; i < nbPushpins; i++) 
     {
         loc = map.entities.get(i).getLocation();
         routeRequest += "wp." + i + "=" + loc.latitude + "," + loc.longitude + "&";                 
     }
-    routeRequest += "routePathOutput=Points&output=json&jsonp=DeleteRouteCallback&key=AsA8oS2mP9AjL-xXtE6TK_oDzrrzZV9_5IB4-8cWYfis6CrFTCwukZia0lT-3CZ0";
+    routeRequest += "routePathOutput=Points&output=json&jsonp=DeleteRouteCallback&key=" + credentials;
 
     var script = document.createElement("script");
     script.setAttribute("type", "text/javascript");
@@ -233,8 +243,6 @@ function DeleteRouteCallback(result) {
      }
 }
 
-/**************** À TESTER ***********************/
-
 function getCurrentLocation()
 {
     var geoLocationProvider = new Microsoft.Maps.GeoLocationProvider(map);  
@@ -243,7 +251,7 @@ function getCurrentLocation()
         function(e) {
             geoLocationProvider.removeAccuracyCircle()
             currentLocation = e.center
-            alert('Localisation ' + e.center);
+            alert("Localiser aux coordonées suivantes\nLat : " + currentLocation.latitude + "\nLong : " + currentLocation.longitude);
             map.setView({zoom: 16})
       } 
     }); 
