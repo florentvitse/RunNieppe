@@ -256,3 +256,12 @@ function getCurrentLocation()
       }, enableHighAccuracy: true, maximumAge: 0 
     }); 
 }
+
+function getTrackOrigin()
+{
+    if(nbPushpins > 2) {
+        return map.entities.get(0).getLocation();
+    } else {
+        alert('Veuillez positionner au moins 2 points sur la carte');
+    }
+}

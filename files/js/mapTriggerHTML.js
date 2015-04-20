@@ -34,6 +34,22 @@ function addHTMLPushpin(distance)
     }
 }
 
+function removeHTMLPushpin()
+{
+    $("#total_distance").text(formateDistance(totalDistance));
+    updateProgressBar();
+    
+    if(nbPushpins > 0) {
+        $("#table_distance tr:last").remove();
+    } 
+    if(nbPushpins === 1) {
+        $(".progress .progress-bar").attr('data-transitiongoal', 0).progressbar();
+        $(".panel-body").slideUp();
+        $("#intervalTrigger").toggleClass("glyphicon-chevron-up");
+        $("#intervalTrigger").toggleClass("glyphicon-chevron-down");
+    }
+}
+
 function updateProgressBar()
 {
     var labelBar = $(".labelBar").get();
@@ -63,18 +79,6 @@ function updateProgressBar()
     }
 }
 
-function removeHTMLPushpin()
-{
-    $("#total_distance").text(formateDistance(totalDistance));
-    updateProgressBar();
-    
-    if(nbPushpins > 0) {
-        $("#table_distance tr:last").remove();
-    } 
-    if(nbPushpins === 1) {
-        $(".progress .progress-bar").attr('data-transitiongoal', 0).progressbar();
-        $(".panel-body").slideUp();
-        $("#intervalTrigger").toggleClass("glyphicon-chevron-up");
-        $("#intervalTrigger").toggleClass("glyphicon-chevron-down");
-    }
-}
+$('#loopTrack').click(function() {
+    //alert('florent');
+});

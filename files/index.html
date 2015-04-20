@@ -59,7 +59,7 @@
             <h2><center>Carte<!--<br><span class="badge">n° 1</span>--></center></h2>
           </div>
           <div class="col-md-1 col-md-offset-3" style="padding-top: 22px">
-            <button class="btn btn-info">Boucler le parcours</button>
+            <button id="loopTrack" class="btn btn-info">Boucler le parcours</button>
           </div>
         </div>
         <hr>
@@ -130,9 +130,6 @@
         </div>
       </div>
 
-      <div id="directionsItinerary">
-      </div>
-
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -156,7 +153,7 @@
             $("#intervalTrigger").toggleClass("glyphicon-chevron-down");
             $(".panel-body").slideToggle();
             window.location.href = "#intervalTrigger";
-      });   
+      });  
     </script>
 
     <!-- mapTriggerHTML Script --> 
