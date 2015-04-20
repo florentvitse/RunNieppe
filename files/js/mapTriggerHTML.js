@@ -1,7 +1,7 @@
 function formateDistance(param)
 {
     if(param < 1000) {
-        return (param.toFixed(2) + ' m');
+        return (param + ' m');
     } else {
         return ((param / 1000).toFixed(2) + ' km');
     }

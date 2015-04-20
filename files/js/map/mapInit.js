@@ -28,6 +28,7 @@ function getMap()
     /*if(map != null)
     {
         getCurrentLocation();
+        map.setView({ center: currentLocation, zoom: 15 });
     }*/
 
     /* EVENTS */
@@ -251,8 +252,7 @@ function getCurrentLocation()
         function(e) {
             geoLocationProvider.removeAccuracyCircle()
             currentLocation = e.center
-            alert("Localiser aux coordonées suivantes\nLat : " + currentLocation.latitude + "\nLong : " + currentLocation.longitude);
-            map.setView({zoom: 16})
-      } 
+            //alert("Localiser aux coordonées suivantes\nLat : " + currentLocation.latitude + "\nLong : " + currentLocation.longitude);
+      }, enableHighAccuracy: true, maximumAge: 0 
     }); 
 }
