@@ -176,10 +176,13 @@ function RouteCallback(result) {
         var routeline = result.resourceSets[0].resources[0].routePath.line;
         // It's the first line that we draw
         if(nbPushpins === 1) { 
-            routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[0][0], routeline.coordinates[0][1]) );
+            map.entities.clear();
+            nbPushpins = 0;
+            addPushpin(new Microsoft.Maps.Location(routeline.coordinates[0][0], routeline.coordinates[0][1])); 
+            routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[0][0], routeline.coordinates[0][1]) );    
         }
 
-        var i = 0;
+        var i;
         // Add of each calculated points
         for (i = 1; i < routeline.coordinates.length; i++) {
             routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[i][0], routeline.coordinates[i][1]) );
@@ -256,9 +259,9 @@ function getCurrentLocation()
     }); 
 }
 
-function loopTrack()
+function buckleTrack()
 {
-    if(nbPushpins > 2) {
+    if(nbPushpins > 1) {
         var loc = map.entities.get(0).getLocation();
         map.getCredentials(function(credentials) { callRestService(credentials, loc); } ); 
     } else {

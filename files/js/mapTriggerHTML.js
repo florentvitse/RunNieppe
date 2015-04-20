@@ -80,6 +80,14 @@ function updateProgressBar()
 }
 
 $('#loopTrack').click(function() {
-    //alert('florent');
-    loopTrack();
+    var enableLoop = $('#loopTrack').attr("data-enableloop");
+    if(enableLoop === "true"){
+        $('#loopTrack').attr("data-enableloop", false);
+        $('#loopTrack').text("Débouclez le parcours");
+        //buckleTrack();
+    } else {
+        $('#loopTrack').attr("data-enableloop", true);
+        $('#loopTrack').text("Bouclez le parcours");
+        //unbuckle
+    }
 });
