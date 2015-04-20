@@ -134,7 +134,6 @@ function changeLastPin()
     }
 }
 
-
 /********* RECUPERATION ITINERAIRE ENTRE DEUX POINTS PLACÉS **********/
 
 function callRestService(credentials, param) 
@@ -257,10 +256,11 @@ function getCurrentLocation()
     }); 
 }
 
-function getTrackOrigin()
+function loopTrack()
 {
     if(nbPushpins > 2) {
-        return map.entities.get(0).getLocation();
+        var loc = map.entities.get(0).getLocation();
+        map.getCredentials(function(credentials) { callRestService(credentials, loc); } ); 
     } else {
         alert('Veuillez positionner au moins 2 points sur la carte');
     }

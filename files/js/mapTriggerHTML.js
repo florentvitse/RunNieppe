@@ -81,4 +81,5 @@ function updateProgressBar()
 
 $('#loopTrack').click(function() {
     //alert('florent');
+    loopTrack();
 });
