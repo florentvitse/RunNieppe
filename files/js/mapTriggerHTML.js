@@ -80,6 +80,10 @@ function updateProgressBar()
 }
 
 $('#loopTrack').click(function() {
+
+    CreateXMLDoc();
+
+
     var enableLoop = $('#loopTrack').attr("data-enableloop");
     if(enableLoop === "true"){
         $('#loopTrack').attr("data-enableloop", false);
