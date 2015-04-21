@@ -31,23 +31,24 @@ function addHTMLPushpin(distance)
         
         $("#total_distance").text(formateDistance(totalDistance));
         updateProgressBar();
+        updateActionButtons();
     }
 }
 
 function removeHTMLPushpin()
 {
     $("#total_distance").text(formateDistance(totalDistance));
-    updateProgressBar();
     
     if(nbPushpins > 0) {
         $("#table_distance tr:last").remove();
     } 
     if(nbPushpins === 1) {
-        $(".progress .progress-bar").attr('data-transitiongoal', 0).progressbar();
         $(".panel-body").slideUp();
         $("#intervalTrigger").toggleClass("glyphicon-chevron-up");
         $("#intervalTrigger").toggleClass("glyphicon-chevron-down");
     }
+    updateProgressBar();
+    updateActionButtons();
 }
 
 function updateProgressBar()
@@ -93,13 +94,17 @@ $('#loopTrack').click(function() {
 });
 
 $('#dlGPXTrack').click(function() {
-    /*var gpxFile = */createGPXFile();
-    /*alert(gpxFile);
-    //location.href = gpxFile;
-    var a = document.createElement("a");
-    a.style = "display: none";
-    a.href = gpxFile;
-    a.download = "Nom_dy_fichier_date.gpx";
-    document.body.appendChild(a);
-    a.click();*/
+    createGPXFile();
 });
+
+function updateActionButtons()
+{
+    if(nbPushpins > 1)
+    {
+        $('#loopTrack').css('display', 'block');
+        $('#dlGPXTrack').css('display', 'block');
+    } else {
+        $('#loopTrack').css('display', 'none');
+        $('#dlGPXTrack').css('display', 'none');
+    }
+}
