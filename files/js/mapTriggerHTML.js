@@ -80,10 +80,6 @@ function updateProgressBar()
 }
 
 $('#loopTrack').click(function() {
-
-    CreateXMLDoc();
-
-
     var enableLoop = $('#loopTrack').attr("data-enableloop");
     if(enableLoop === "true"){
         $('#loopTrack').attr("data-enableloop", false);
@@ -94,4 +90,16 @@ $('#loopTrack').click(function() {
         $('#loopTrack').text("Bouclez le parcours");
         //unbuckle
     }
+});
+
+$('#dlGPXTrack').click(function() {
+    /*var gpxFile = */createGPXFile();
+    /*alert(gpxFile);
+    //location.href = gpxFile;
+    var a = document.createElement("a");
+    a.style = "display: none";
+    a.href = gpxFile;
+    a.download = "Nom_dy_fichier_date.gpx";
+    document.body.appendChild(a);
+    a.click();*/
 });
