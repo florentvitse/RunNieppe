@@ -30,7 +30,7 @@ function createGPXFile () {
     var a = document.createElement("a");
     a.style = "display: none";
     a.href = window.URL.createObjectURL(data);   
-    a.download = "Nom_dy_fichier_date.gpx";
+    a.download = 'RunNieppe_Track_c_' + datetime + '.gpx';
     // Add to the DOM - (Necessary for Firefox)
     document.body.appendChild(a);
     a.click();
