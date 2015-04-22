@@ -7,14 +7,14 @@ function createGPXFile () {
             + currentdate.getMinutes() + ":" 
             + currentdate.getSeconds() + ".000Z";
 
-    var XMLDoc = '<?xml version="1.0" encoding="utf-8"?><gpx version="1.1" creator="RunNieppe"><metadata><time>' + datetime + '</time></metadata><trk><trkseg>';
+    var XMLDoc = '<?xml version="1.0" encoding="utf-8"?>\r\n<gpx version="1.1" creator="RunNieppe">\r\n\t<metadata>\r\n\t\t<time>' + datetime + '</time>\r\n\t</metadata>\r\n\t<trk>\r\n\t\t<trkseg>';
 
     // Add of the points used to drew the Polyline
     $(routepoints).each(function(index, value) {
-        XMLDoc += '<trkpt lat="' + value.latitude + '" lon="' + value.longitude + '"></trkpt>';
+        XMLDoc += '\r\n\t\t\t<trkpt lat="' + value.latitude + '" lon="' + value.longitude + '"/>';
     });
 
-    XMLDoc += '</trkseg></trk></gpx>';
+    XMLDoc += '\r\n\t\t</trkseg>\r\n\t</trk>\r\n</gpx>';
 
     /* APPROCHE DOM 
     var parser = new DOMParser();
@@ -26,17 +26,21 @@ function createGPXFile () {
 
     var data = new Blob([XMLDoc], {type : 'text/xml'}); 
 
-    // Creation of the clickself link
-    var a = document.createElement("a");
-    a.style = "display: none";
-    a.href = window.URL.createObjectURL(data);   
-    a.download = 'RunNieppe_Track_c_' + datetime + '.gpx';
-    // Add to the DOM - (Necessary for Firefox)
-    document.body.appendChild(a);
-    a.click();
-    //Remove from the DOM
-    a.remove();  
-
-    /* SUPPORT OF IE, LATER */
-    //window.navigator.msSaveBlob(data, "Nom_dy_fichier_date.gpx");
+    var ua = window.navigator.userAgent;
+    // Test for MSIE x.x;
+    if (~ua.indexOf('MSIE ') || ~ua.indexOf('Trident/')) 
+    { 
+        window.navigator.msSaveBlob(data, 'RunNieppe_Track_c_' + datetime + '.gpx');
+    } else {
+        // Creation of the clickself link
+        var a = document.createElement("a");
+        a.style = "display: none";
+        a.href = window.URL.createObjectURL(data);   
+        a.download = 'RunNieppe_Track_c_' + datetime + '.gpx';
+        // Add to the DOM - (Necessary for Firefox)
+        document.body.appendChild(a);
+        a.click();
+        //Remove from the DOM
+        a.remove();  
+    }
 }
