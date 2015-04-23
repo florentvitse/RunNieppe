@@ -23,7 +23,7 @@ function createGPXFile () {
     alert(serializer.serializeToString(xmlDoc));*/ 
 
     /* APPROCHE BLOB */
-
+    
     var data = new Blob([XMLDoc], {type : 'text/xml'}); 
 
     var ua = window.navigator.userAgent;
@@ -32,6 +32,7 @@ function createGPXFile () {
     { 
         window.navigator.msSaveBlob(data, 'RunNieppe_Track_c_' + datetime + '.gpx');
     } else {
+
         // Creation of the clickself link
         var a = document.createElement("a");
         a.style = "display: none";

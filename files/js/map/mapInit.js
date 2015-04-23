@@ -158,6 +158,7 @@ function callRestService(credentials, param)
         script.setAttribute("type", "text/javascript");
         script.setAttribute("src", routeRequest);
         document.body.appendChild(script);
+        script.remove();
     } else {
         addPushpin(new Microsoft.Maps.Location( parseFloat(param.latitude.toFixed(6)), parseFloat(param.longitude.toFixed(6)) ) );
     }
@@ -218,6 +219,7 @@ function callDeleteRestService(credentials)
     script.setAttribute("type", "text/javascript");
     script.setAttribute("src", routeRequest);
     document.body.appendChild(script);
+    script.remove();
 }
 
 function DeleteRouteCallback(result) {
