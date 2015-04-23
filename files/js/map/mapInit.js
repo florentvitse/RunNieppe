@@ -3,6 +3,7 @@ var map = null;
 var nbPushpins = 0;
 var totalDistance = 0;
 var routepoints = new Array();
+var buckledUp = false;
 
 var currentLocation = null;
 
@@ -63,8 +64,10 @@ function getMap()
 function addPushpin(param) 
 {
     nbPushpins++;
+    pushpinOpt = {text: nbPushpins.toString() };
+    if(buckledUp) { pushpinOpt['visible'] = false; }
     // Add the pin to the map
-    var pin = new Microsoft.Maps.Pushpin(param, {text: nbPushpins.toString()}); 
+    var pin = new Microsoft.Maps.Pushpin(param, pushpinOpt); 
     Microsoft.Maps.Events.addHandler(pin, 'rightclick', deletePushpin);
     map.entities.push(pin);
     // Center the map on the location
@@ -263,10 +266,7 @@ function getCurrentLocation()
 
 function buckleTrack()
 {
-    if(nbPushpins > 1) {
-        var loc = map.entities.get(0).getLocation();
-        map.getCredentials(function(credentials) { callRestService(credentials, loc); } ); 
-    } else {
-        alert('Veuillez positionner au moins 2 points sur la carte');
-    }
+    var loc = map.entities.get(0).getLocation();
+    buckledUp = true;
+    map.getCredentials(function(credentials) { callRestService(credentials, loc); } ); 
 }
