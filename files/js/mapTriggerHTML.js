@@ -13,8 +13,8 @@ function addHTMLPushpin(distance)
     var classTextOne = "interval-text",
         classTextTwo = "interval-text";
     if(distance > 0) {
-        if(nbPushpins > 8) {
-            if(nbPushpins === 9)
+        if(nbPushpins > 9) {
+            if(nbPushpins === 10)
             {
                 classTextTwo = "interval-text-supten";
             } else {
@@ -23,9 +23,9 @@ function addHTMLPushpin(distance)
         } 
 
         $("#table_distance tr:last").after("<tr><td class=\"interval-pushpin interval-pushpin-deb\"><span class=\"" + classTextOne + "\"><b>" 
-                                            + nbPushpins + 
+                                            + (nbPushpins - 1) + 
                                             "</b></span></td><td class=\"interval-pushpin interval-pushpin-end\"><span class=\"" + classTextTwo + "\"><b>" 
-                                            + (nbPushpins + 1) + 
+                                            + (nbPushpins) + 
                                             "</b></span></td><td><img class=\"pull-right\" src=\"images/path.png\"/><span class=\"pull-right\" style=\"position: relative; top: 20px; left: 130px;\">" 
                                             + formateDistance(distance) + "</span></td></tr><br><br>");
         
@@ -85,11 +85,11 @@ $('#loopTrack').click(function() {
     if(enableLoop === "true"){
         $('#loopTrack').attr("data-enableloop", false);
         $('#loopTrack').text("Débouclez le parcours");
-        //buckleTrack();
+        buckleTrack();
     } else {
         $('#loopTrack').attr("data-enableloop", true);
         $('#loopTrack').text("Bouclez le parcours");
-        //unbuckle
+        unBuckleTrack();
     }
 });
 

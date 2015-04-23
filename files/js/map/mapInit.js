@@ -1,10 +1,10 @@
 /* GLOBALES VARIABLES */
 var map = null;
+var clickHandlerId;
 var nbPushpins = 0;
 var totalDistance = 0;
 var routepoints = new Array();
 var buckledUp = false;
-
 var currentLocation = null;
 
 /* FUNCTIONS */
@@ -42,7 +42,7 @@ function getMap()
     );
 
     // Add a handler to function that add a pushpin when click
-    Microsoft.Maps.Events.addHandler(map, 'click', 
+    clickHandlerId = Microsoft.Maps.Events.addHandler(map, 'click', 
             function(e) {
               if (e.targetType == "map") {
                     var point = new Microsoft.Maps.Point(e.getX(), e.getY());
@@ -82,7 +82,6 @@ function deletePushpin(e)
         map.entities.removeAt(nbPushpins); 
         map.entities.removeAt(nbPushpins - 1); 
         nbPushpins--;
-        routepoints = new Array();
 
         if(nbPushpins > 1) {
             map.getCredentials(callDeleteRestService); 
@@ -235,6 +234,8 @@ function DeleteRouteCallback(result) {
 
         // Add the new points on the route
         var routeline = result.resourceSets[0].resources[0].routePath.line;
+        routepoints = new Array();
+
 
         var i = 0;
         // Add of each calculated points
@@ -266,7 +267,31 @@ function getCurrentLocation()
 
 function buckleTrack()
 {
+    Microsoft.Maps.Events.removeHandler(clickHandlerId);
     var loc = map.entities.get(0).getLocation();
     buckledUp = true;
     map.getCredentials(function(credentials) { callRestService(credentials, loc); } ); 
+}
+
+function unBuckleTrack()
+{
+    buckledUp = false;
+    // We gonna start a new line
+    map.entities.removeAt(nbPushpins); 
+    map.entities.removeAt(nbPushpins - 1); 
+    nbPushpins--;
+    routepoints = new Array();
+
+    map.getCredentials(callDeleteRestService); 
+    removeHTMLPushpin();
+    // Re-Add a handler to function that add a pushpin when click
+    clickHandlerId = Microsoft.Maps.Events.addHandler(map, 'click', 
+            function(e) {
+              if (e.targetType == "map") {
+                    var point = new Microsoft.Maps.Point(e.getX(), e.getY());
+                    var loc = e.target.tryPixelToLocation(point) ;
+                    map.getCredentials(function(credentials) { callRestService(credentials, loc); } ); 
+              }
+            }
+    );
 }
