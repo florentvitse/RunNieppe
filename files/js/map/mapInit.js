@@ -82,6 +82,7 @@ function deletePushpin(e)
         map.entities.removeAt(nbPushpins); 
         map.entities.removeAt(nbPushpins - 1); 
         nbPushpins--;
+        routepoints = new Array();
 
         if(nbPushpins > 1) {
             map.getCredentials(callDeleteRestService); 
@@ -234,8 +235,6 @@ function DeleteRouteCallback(result) {
 
         // Add the new points on the route
         var routeline = result.resourceSets[0].resources[0].routePath.line;
-        routepoints = new Array();
-
 
         var i = 0;
         // Add of each calculated points
