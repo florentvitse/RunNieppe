@@ -6,7 +6,7 @@
 }
 
 /* MEDIA STYLE */
-@media (max-width: 750px) {
+@media (max-width: 980px) {
   h2 {
       padding-top: 20px;
   }
@@ -20,7 +20,7 @@
   }
 }
 
-@media (min-width: 750px) {
+@media (min-width: 980px) {
   .info_map_mobile {
   	display: none;
   }
