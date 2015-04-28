@@ -92,7 +92,6 @@ function deletePushpin(e)
                 var loc = map.entities.get(0).getLocation();
                 map.setView({center: new Microsoft.Maps.Location(loc.latitude, loc.longitude) }); 
             }
-
             totalDistance = 0; 
         } 
         removeHTMLPushpin();

@@ -4,3 +4,24 @@
 	height: 650px;
 	border:#555555 2px solid;
 }
+
+/* MEDIA STYLE */
+@media (max-width: 750px) {
+  h2 {
+      padding-top: 20px;
+  }
+
+  .map {
+  	display: none;
+  }
+
+  .info_track {
+  	display: none;
+  }
+}
+
+@media (min-width: 750px) {
+  .info_map_mobile {
+  	display: none;
+  }
+}

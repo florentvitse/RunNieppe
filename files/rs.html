@@ -12,6 +12,17 @@
 
     <!-- Bootstrap core CSS -->
     <link type="text/css" rel="stylesheet" href="./css/bootstrap.min.css">
+    <style>
+      /* MEDIA STYLE */
+      @media (max-width: 750px) {
+          h2 {
+              padding-top: 20px;
+          }
+          .button_line_under {
+            margin-top: 20px;
+          }
+      }
+    </style>
 
     <script src="./js/ie-emulation-modes-warning.js"></script>
 
@@ -55,7 +66,7 @@
         </div>
         <hr>
         <div class="row">
-          <div class="col-md-2"> 
+          <div class="col-md-2 col-xs-12"> 
             <select class="form-control">
               <optgroup label="2015">
                 <option value="12-2014">Avril</option>
@@ -70,8 +81,8 @@
               </optgroup>
             </select>
           </div>
-          <div class="col-md-2">
-            <button type="submit" class="btn btn-primary">Consulter</button>
+          <div class="col-md-2 col-xs-12">
+            <center><button type="submit" class="btn btn-primary button_line_under">Consulter</button></center>
           </div>  
         </div> 
         <hr>
@@ -79,10 +90,10 @@
         <h2 style="position: relative; margin-top: -40px;"><center>Meilleurs Temps</center></h2>
         <br><br>
         <div class="row">
-          <div class="col-md-2">
+          <div class="col-md-2 col-xs-2">
             <center><label>5 km</label></center>
           </div>
-          <div class="col-md-1">
+          <div class="col-md-1 col-xs-2">
             <div class="progress">
               <div class="progress-bar" role="progressbar" data-transitiongoal="100">
                 <em class="pull-right" style="padding-right: 5px;">22m 49s</em>
@@ -91,10 +102,10 @@
           </div>  
         </div>
         <div class="row">
-          <div class="col-md-2">
+          <div class="col-md-2 col-xs-2">
             <center><label>10 km</label></center>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-2 col-xs-3">
             <div class="progress">
               <div class="progress-bar progress-bar-info" role="progressbar" data-transitiongoal="100">
                 <em class="pull-right" style="padding-right: 5px;">44m 16s</em>
@@ -103,10 +114,10 @@
           </div>  
         </div>
         <div class="row">
-          <div class="col-md-2">
+          <div class="col-md-2 col-xs-2">
             <center><label>15 km</label></center>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 col-xs-4">
             <div class="progress">
               <div class="progress-bar progress-bar-warning" role="progressbar" data-transitiongoal="100">
                 <em class="pull-right" style="padding-right: 5px;">1h 12m 28s</em>
@@ -115,10 +126,10 @@
           </div>  
         </div>
         <div class="row">
-          <div class="col-md-2">
+          <div class="col-md-2 col-xs-2">
             <center><label>Semi-Marathon<br>(21 km)</label></center>
           </div>
-          <div class="col-md-5">
+          <div class="col-md-5 col-xs-6">
             <div class="progress">
               <div class="progress-bar progress-bar-success" role="progressbar" data-transitiongoal="100">
                 <em class="pull-right" style="padding-right: 5px;">1h 43m 01s</em>
