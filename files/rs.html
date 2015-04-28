@@ -14,13 +14,29 @@
     <link type="text/css" rel="stylesheet" href="./css/bootstrap.min.css">
     <style>
       /* MEDIA STYLE */
-      @media (max-width: 750px) {
-          h2 {
-              padding-top: 20px;
-          }
-          .button_line_under {
-            margin-top: 20px;
-          }
+      @media (max-width: 980px) {
+        h2 {
+            padding-top: 20px;
+        }
+        .button_line_under {
+          margin-top: 20px;
+        }
+        #img-medal {
+          margin: -22px 0 0 14px;
+        }
+        #time {
+          font-size: 130%;
+          margin: -60px 0 0 65px;
+        }
+      }
+
+      @media (min-width: 980px) {
+        #img-medal {
+          margin-top: -20px;
+        }
+        #time {
+          margin-top: -20px;
+        }
       }
     </style>
 
@@ -86,14 +102,14 @@
           </div>  
         </div> 
         <hr>
-        <img src="images/medal.png" width="40px" style="position: relative; margin-top: -20px;"/>
-        <h2 style="position: relative; margin-top: -40px;"><center>Meilleurs Temps</center></h2>
+        <img id="img-medal" src="images/medal.png" width="40px" style="position: relative;"/>
+        <h2 id="time" style="position: relative;"><center>Meilleurs Temps</center></h2>
         <br><br>
         <div class="row">
-          <div class="col-md-2 col-xs-2">
+          <div class="col-md-2 col-xs-4">
             <center><label>5 km</label></center>
           </div>
-          <div class="col-md-1 col-xs-2">
+          <div class="col-md-1 col-xs-8">
             <div class="progress">
               <div class="progress-bar" role="progressbar" data-transitiongoal="100">
                 <em class="pull-right" style="padding-right: 5px;">22m 49s</em>
@@ -102,10 +118,10 @@
           </div>  
         </div>
         <div class="row">
-          <div class="col-md-2 col-xs-2">
+          <div class="col-md-2 col-xs-4">
             <center><label>10 km</label></center>
           </div>
-          <div class="col-md-2 col-xs-3">
+          <div class="col-md-2 col-xs-8">
             <div class="progress">
               <div class="progress-bar progress-bar-info" role="progressbar" data-transitiongoal="100">
                 <em class="pull-right" style="padding-right: 5px;">44m 16s</em>
@@ -114,10 +130,10 @@
           </div>  
         </div>
         <div class="row">
-          <div class="col-md-2 col-xs-2">
+          <div class="col-md-2 col-xs-4">
             <center><label>15 km</label></center>
           </div>
-          <div class="col-md-3 col-xs-4">
+          <div class="col-md-3 col-xs-8">
             <div class="progress">
               <div class="progress-bar progress-bar-warning" role="progressbar" data-transitiongoal="100">
                 <em class="pull-right" style="padding-right: 5px;">1h 12m 28s</em>
@@ -126,10 +142,10 @@
           </div>  
         </div>
         <div class="row">
-          <div class="col-md-2 col-xs-2">
+          <div class="col-md-2 col-xs-4">
             <center><label>Semi-Marathon<br>(21 km)</label></center>
           </div>
-          <div class="col-md-5 col-xs-6">
+          <div class="col-md-5 col-xs-8">
             <div class="progress">
               <div class="progress-bar progress-bar-success" role="progressbar" data-transitiongoal="100">
                 <em class="pull-right" style="padding-right: 5px;">1h 43m 01s</em>
