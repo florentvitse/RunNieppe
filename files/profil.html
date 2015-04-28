@@ -23,6 +23,8 @@
 
     <!-- ProgressBar Style -->
     <link rel="stylesheet" type="text/css" href="./css/bootstrap-progressbar-3.3.2.min.css">
+    <!-- Slider Style -->
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap-slider.min.css">
 
     <style>
 
@@ -184,7 +186,8 @@
           </div>
           <div class="col-md-9">
             <div class="profile-content">
-              <p>Some user related content goes here...</p>
+              <p>Slider</p>
+              <input id="slider_distance" type="text" data-slider-min="0" data-slider-max="42.2" data-slider-step="0.2" data-slider-value="6"/&t
             </div>
           </div>
         </div>
@@ -198,11 +201,14 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="./js/ie10-viewport-bug-workaround.js"></script>
 
-    <!-- ProgressBar Style -->
+    <!-- ProgressBar Script -->
     <script src="./js/bootstrap-progressbar.min.js"></script>
+    <!-- Slider Script -->
+    <script src="./js/bootstrap-slider.min.js"></script>
 
     <script>
-      $('.progress .progress-bar').progressbar();  // Activation with Bootstrap 3      
+      //$('.progress .progress-bar').progressbar();  // Activation with Bootstrap 3   
+      $("#slider_distance").slider();   
     </script>
   </body>
 </html>
