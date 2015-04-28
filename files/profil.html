@@ -25,102 +25,94 @@
     <link rel="stylesheet" type="text/css" href="./css/bootstrap-progressbar-3.3.2.min.css">
 
     <style>
-/* Profile container */
-.profile {
-  margin: 20px 0;
-}
 
-/* Profile sidebar */
-.profile-sidebar {
-  padding: 20px 0 10px 0;
-  background: #fff;
-}
+      /* Profile sidebar */
+      .profile-sidebar {
+        padding: 20px 0 10px 0;
+        background: #fff;
+      }
 
-.profile-userpic img {
-  float: none;
-  margin: 0 auto;
-  width: 50%;
-  height: 50%;
-  -webkit-border-radius: 50% !important;
-  -moz-border-radius: 50% !important;
-  border-radius: 50% !important;
-}
+      .profile-userpic img {
+        margin: 0 auto;
+        width: 50%;
+        height: 50%;
+        border-radius: 50% !important;
+      }
 
-.profile-usertitle {
-  text-align: center;
-  margin-top: 20px;
-}
+      .profile-usertitle {
+        text-align: center;
+        margin-top: 20px;
+      }
 
-.profile-usertitle-name {
-  color: #5a7391;
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 7px;
-}
+      .profile-usertitle-name {
+        text-transform: uppercase;
+        color: #5a7391;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 7px;
+      }
 
-.profile-usertitle-job {
-  text-transform: uppercase;
-  color: #5b9bd1;
-  font-size: 12px;
-  font-weight: 600;
-  margin-bottom: 15px;
-}
+      .profile-usertitle-job {
+        color: #5b9bd1;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
 
-.profile-userbuttons {
-  text-align: center;
-  margin-top: 10px;
-}
+      .profile-userbuttons {
+        text-align: center;
+        margin-top: 10px;
+      }
 
-.profile-userbuttons .btn {
-  text-transform: uppercase;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 6px 15px;
-  margin-right: 5px;
-}
+      .profile-userbuttons .btn {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 6px 15px;
+        margin-right: 5px;
+      }
 
-.profile-userbuttons .btn:last-child {
-  margin-right: 0px;
-}
-    
-.profile-usermenu {
-  margin-top: 30px;
-}
+      .profile-userbuttons .btn:last-child {
+        margin-right: 0px;
+      }
+          
+      .profile-usermenu {
+        margin-top: 30px;
+      }
 
-.profile-usermenu ul li {
-  border-bottom: 1px solid #f0f4f7;
-}
+      .profile-usermenu ul li {
+        border-bottom: 1px solid #f0f4f7;
+      }
 
-.profile-usermenu ul li:last-child {
-  border-bottom: none;
-}
+      .profile-usermenu ul li:last-child {
+        border-bottom: none;
+      }
 
-.profile-usermenu ul li a {
-  color: #93a3b5;
-  font-size: 14px;
-  font-weight: 400;
-}
+      .profile-usermenu ul li a {
+        color: #93a3b5;
+        font-size: 14px;
+        font-weight: 400;
+      }
 
-.profile-usermenu ul li a i {
-  margin-right: 8px;
-  font-size: 14px;
-}
+      .profile-usermenu ul li a span {
+        margin-right: 8px;
+        font-size: 14px;
+      }
 
-.profile-usermenu ul li a:hover {
-  background-color: #fafcfd;
-  color: #5b9bd1;
-}
+      .profile-usermenu ul li a:hover {
+        background-color: #fafcfd;
+        color: #5b9bd1;
+      }
 
-.profile-usermenu ul li.active {
-  border-bottom: none;
-}
+      .profile-usermenu ul li.active {
+        border-bottom: none;
+      }
 
-.profile-usermenu ul li.active a {
-  color: #5b9bd1;
-  background-color: #f6f9fb;
-  border-left: 2px solid #5b9bd1;
-  margin-left: -2px;
-}
+      .profile-usermenu ul li.active a {
+        color: #5b9bd1;
+        background-color: #f6f9fb;
+        border-left: 2px solid #5b9bd1;
+        margin-left: -2px;
+      }
     </style>
 
   </head>
@@ -140,9 +132,9 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="index.html"><span class="glyphicon glyphicon-info-sign"></span> Récapitulatif</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Profil</a></li>
+            <li class="active"><a href="profil.html"><span class="glyphicon glyphicon-user"></span> Profil</a></li>
             <li><a href="#"><span class="glyphicon glyphicon-map-marker"></span> Parcours</a></li>
-            <li class="active"><a href="#"><span class="glyphicon glyphicon-flag"></span> Résultats</a></li>
+            <li><a href="rs.html"><span class="glyphicon glyphicon-flag"></span> Résultats</a></li>
           </ul>
         </div>
       </div>
@@ -151,71 +143,51 @@
     <div class="container">
       <div class="jumbotron">
         <div class="row">
-          <h2><center>Profil<!--<br><span class="badge">n° 1</span>--></center></h2>
-        </div>
-        <hr>
-        <div class="row profile">
-          <div class="col-md-3">
-            <div class="profile-sidebar">
-              <!-- SIDEBAR USERPIC -->
-              <div class="profile-userpic">
-                <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive" alt="">
-              </div>
-              <!-- END SIDEBAR USERPIC -->
-              <!-- SIDEBAR USER TITLE -->
-              <div class="profile-usertitle">
-                <div class="profile-usertitle-name">
-                  Marcus Doe
-                </div>
-                <div class="profile-usertitle-job">
-                  Developer
-                </div>
-              </div>
-              <!-- END SIDEBAR USER TITLE -->
-              <!-- SIDEBAR BUTTONS -->
-              <div class="profile-userbuttons">
-                <button type="button" class="btn btn-success btn-sm">Follow</button>
-                <button type="button" class="btn btn-danger btn-sm">Message</button>
-              </div>
-              <!-- END SIDEBAR BUTTONS -->
-              <!-- SIDEBAR MENU -->
-              <div class="profile-usermenu">
-                <ul class="nav">
-                  <li class="active">
-                    <a href="#">
-                    <i class="glyphicon glyphicon-home"></i>
-                    Overview </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    <i class="glyphicon glyphicon-user"></i>
-                    Account Settings </a>
-                  </li>
-                  <li>
-                    <a href="#" target="_blank">
-                    <i class="glyphicon glyphicon-ok"></i>
-                    Tasks </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    <i class="glyphicon glyphicon-flag"></i>
-                    Help </a>
-                  </li>
-                </ul>
-              </div>
-              <!-- END MENU -->
-            </div>
-          </div>
-          <div class="col-md-9">
-                  <div class="profile-content">
-               Some user related content goes here...
-                  </div>
-          </div>
+          <h2><center>Profil</center></h2>
         </div>
         <hr>
         <div class="row">
-          
-      </div>
+          <div class="col-md-3">
+            <div class="profile-sidebar">
+              <div class="profile-userpic">
+                <a href="#"><img src="images/Unknown-person.gif" class="img-responsive"></a>
+              </div>
+              <div class="profile-usertitle">
+                <div class="profile-usertitle-name">
+                  Florent Vitse
+                </div>
+                <div class="profile-usertitle-job">
+                  Nieppe, FRANCE
+                </div>
+              </div>
+              <div class="profile-userbuttons">
+                <button type="button" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Ajouter</button>
+                <button type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-envelope"></span> Message</button>
+              </div>
+              <div class="profile-usermenu">
+                <ul class="nav">
+                  <li>
+                    <a href="#">
+                    <span class="glyphicon glyphicon-user"></span>Informations</a>
+                  </li>
+                  <li class="active">
+                    <a href="#">
+                    <span class="glyphicon glyphicon-map-marker"></span>Parcours</a>
+                  </li>
+                  <li>
+                    <a href="#" target="_blank">
+                    <span class="glyphicon glyphicon-flag"></span>Résultats</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <div class="profile-content">
+              <p>Some user related content goes here...</p>
+            </div>
+          </div>
+        </div>
     </div>
 
     <!-- Bootstrap core JavaScript
