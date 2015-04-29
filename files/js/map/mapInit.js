@@ -198,7 +198,7 @@ function RouteCallback(result) {
         var distance = result.resourceSets[0].resources[0].travelDistance * 1000;
         addPushpin(new Microsoft.Maps.Location(routeline.coordinates[i - 1][0], routeline.coordinates[i - 1][1])); 
         totalDistance += distance;
-        addHTMLPushpin(distance);
+        addHTMLPushpin(distance, buckledUp);
 
         // Re-Add of the Polyline on the Map
         map.entities.push(routeshape);     

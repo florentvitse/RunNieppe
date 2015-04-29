@@ -7,11 +7,12 @@ function formateDistance(param)
     }
 }
 
-function addHTMLPushpin(distance)
+function addHTMLPushpin(distance, buckled)
 {
     var percent;
     var classTextOne = "interval-text",
         classTextTwo = "interval-text";
+    var nextNumber = nbPushpins;
     if(distance > 0) {
         if(nbPushpins > 9) {
             if(nbPushpins === 10)
@@ -21,13 +22,17 @@ function addHTMLPushpin(distance)
                 classTextOne = classTextTwo = "interval-text-supten";
             }
         } 
+        if(buckled) { 
+            classTextTwo = "interval-text"; 
+            nextNumber = 1;
+        }
 
-        $("#table_distance tr:last").after("<tr><td class=\"interval-pushpin interval-pushpin-deb\"><span class=\"" + classTextOne + "\"><b>" 
+        $("#table_distance tr:last").after('<tr><td class="interval-pushpin interval-pushpin-deb"><span class="' + classTextOne + '"><b>' 
                                             + (nbPushpins - 1) + 
-                                            "</b></span></td><td class=\"interval-pushpin interval-pushpin-end\"><span class=\"" + classTextTwo + "\"><b>" 
-                                            + (nbPushpins) + 
-                                            "</b></span></td><td><img class=\"pull-right\" src=\"images/path.png\"/><span class=\"pull-right\" style=\"position: relative; top: 20px; left: 130px;\">" 
-                                            + formateDistance(distance) + "</span></td></tr><br><br>");
+                                            '</b></span></td><td class="interval-pushpin interval-pushpin-end"><span class="' + classTextTwo + '"><b>' 
+                                            + nextNumber + 
+                                            '</b></span></td><td><img class="pull-right" src="images/path.png"/><span class="pull-right" style="position: relative; top: 20px; left: 130px;">' 
+                                            + formateDistance(distance) + '</span></td></tr><br><br>');
         
         $("#total_distance").text(formateDistance(totalDistance));
         updateProgressBar();
