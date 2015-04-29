@@ -93,8 +93,8 @@ function deletePushpin(e)
                 map.setView({center: new Microsoft.Maps.Location(loc.latitude, loc.longitude) }); 
             }
             totalDistance = 0; 
+            removeHTMLPushpin();
         } 
-        removeHTMLPushpin();
     }
 }
 
@@ -246,6 +246,8 @@ function DeleteRouteCallback(result) {
         var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200, 0, 0, 200)} );
         map.entities.push(routeshape);  
 
+        removeHTMLPushpin();
+
         map.setView({center: new Microsoft.Maps.Location(routeline.coordinates[i - 1][0], routeline.coordinates[i - 1][1]) });   
      }
 }
@@ -281,7 +283,6 @@ function unBuckleTrack()
     routepoints = new Array();
 
     map.getCredentials(callDeleteRestService); 
-    removeHTMLPushpin();
     // Re-Add a handler to function that add a pushpin when click
     clickHandlerId = Microsoft.Maps.Events.addHandler(map, 'click', 
             function(e) {
