@@ -56,7 +56,7 @@
       <div class="jumbotron">
         <div class="row">
           <div class="col-md-2 col-md-offset-5">
-            <h2><center>Carte<!--<br><span class="badge">n° 1</span>--></center></h2>
+            <h2><center>Carte</center></h2>
           </div>
           <div class="col-md-1 col-md-offset-3" style="padding-top: 22px">
             <button id="loopTrack" class="btn btn-info" data-enableloop="true" style="display: none">Boucler le parcours</button>
@@ -64,34 +64,31 @@
         </div>
         <hr>
         <div class="row">
-          <div class="col-md-12"> 
+          <div class="col-md-9"> 
             <div id='mapDiv' class="map" oncontextmenu="return false;">
             </div>
           </div>
-        </div>
-          <hr class=" info_track">
-        <div class="row info_track">
-          <div class="col-md-3" style="margin-top: -10px;">
-            <br>
+        <!--</div>-->
+          <!--<hr class="info_track">-->
+        <!--<div class="row info_track">-->
+          <!--<div class="col-md-3" style="margin-top: -10px;">
+            <br>-->
+          <div class="col-md-3">
             <i>Distance Total : &nbsp;&nbsp;<b id="total_distance" style="font-size: 200%">0 m</b></i>
-          </div>
-          <div class="col-md-3"> 
+            <br/>
+            <hr>
             <div class="labelBar pull-right">5 km</div>
             <br>
             <div class="progress">
               <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" data-transitiongoal="0">
               </div>
             </div>
-          </div>
-          <div class="col-md-3"> 
             <div class="labelBar pull-right">10 km</div>
             <br>
             <div class="progress">
               <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" data-transitiongoal="0">
               </div>
             </div>
-          </div>
-          <div class="col-md-3">
             <div class="labelBar pull-right">15 km</div>
             <br>
             <div class="progress">
@@ -99,12 +96,13 @@
               </div>
             </div>
           </div>
-        </div>  
-        <div class="row info_track">
-          <div class="col-md-3">
-            <button id="dlGPXTrack" class="btn btn-info" style="display: none">Télécharger le parcours (.gpx)</button>
+          <div>
+            <button id="dlGPXTrack" class="btn btn-info" style="display: none; margin: 0px auto;">Télécharger le parcours (.gpx)</button>
           </div>  
-          <div class="col-md-9">
+        </div>
+        <br/>
+        <div class="row">
+          <div class="col-md-12"> 
             <div class="panel panel-info">
               <div class="panel-heading">Intervalles <span id="intervalTrigger" class="glyphicon glyphicon-chevron-down pull-right"></span>
               </div>
@@ -119,21 +117,18 @@
                     </th>
                   </thead>
                   <tbody>
-                    
                   </tbody>
                 </table>
               </div>
             </div>
-          </div> 
-          <!--<div class="col-md-2">
-            <h1><span class="glyphicon glyphicon-time"></span></h1>
-          </div>-->
+          </div>
         </div>
+
         <div class="row info_map_mobile">
           <p><center>Veuillez consulter le site sur ordinateur pour créer des parcours.</center></p>
         </div>
-        </div>
       </div>
+    </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
