@@ -1,7 +1,6 @@
 /* GLOBALES VARIABLES */
 var map = null;
 var clickHandlerId;
-var firstDelete = false;
 var totalDistance = 0;
 var routepoints = new Array();
 var buckledUp = false;
