@@ -1,21 +1,21 @@
-function formateDistance(param)
+function formateDistance(dist)
 {
-    if(param < 1000) {
-        return (param + ' m');
+    if(dist < 1000) {
+        return (dist + ' m');
     } else {
-        return ((param / 1000).toFixed(2) + ' km');
+        return ((dist / 1000).toFixed(2) + ' km');
     }
 }
 
-function addHTMLPushpin(distance, buckled)
+function addHTMLPushpin(number, distance, buckled)
 {
     var percent;
     var classTextOne = "interval-text",
         classTextTwo = "interval-text";
-    var nextNumber = nbPushpins;
+    var nextNumber = number;
     if(distance > 0) {
-        if(nbPushpins > 9) {
-            if(nbPushpins === 10)
+        if(number > 9) {
+            if(number === 10)
             {
                 classTextTwo = "interval-text-supten";
             } else {
@@ -28,7 +28,7 @@ function addHTMLPushpin(distance, buckled)
         }
 
         $("#table_distance tr:last").after('<tr><td class="interval-pushpin interval-pushpin-deb"><span class="' + classTextOne + '"><b>' 
-                                            + (nbPushpins - 1) + 
+                                            + (number - 1) + 
                                             '</b></span></td><td class="interval-pushpin interval-pushpin-end"><span class="' + classTextTwo + '"><b>' 
                                             + nextNumber + 
                                             '</b></span></td><td><img class="pull-right" src="images/path.png"/><span class="pull-right" style="position: relative; top: 20px; left: 130px;">' 
@@ -36,24 +36,24 @@ function addHTMLPushpin(distance, buckled)
         
         $("#total_distance").text(formateDistance(totalDistance));
         updateProgressBar();
-        updateActionButtons();
+        updateActionButtons(number);
     }
 }
 
-function removeHTMLPushpin()
+function removeHTMLPushpin(number)
 {
     $("#total_distance").text(formateDistance(totalDistance));
     
-    if(nbPushpins > 0) {
+    if(number > 0) {
         $("#table_distance tr:last").remove();
     } 
-    if(nbPushpins === 1) {
+    if(number === 1) {
         $(".panel-body").slideUp();
         $("#intervalTrigger").toggleClass("glyphicon-chevron-up");
         $("#intervalTrigger").toggleClass("glyphicon-chevron-down");
     }
+    updateActionButtons(number);
     updateProgressBar();
-    updateActionButtons();
 }
 
 function updateProgressBar()
@@ -98,13 +98,9 @@ $('#loopTrack').click(function() {
     }
 });
 
-$('#dlGPXTrack').click(function() {
-    createGPXFile();
-});
-
-function updateActionButtons()
+function updateActionButtons(num)
 {
-    if(nbPushpins > 1)
+    if(num > 1)
     {
         $('#loopTrack').css('display', 'block');
         $('#dlGPXTrack').css('display', 'block');
@@ -113,3 +109,7 @@ function updateActionButtons()
         $('#dlGPXTrack').css('display', 'none');
     }
 }
+
+$('#dlGPXTrack').click(function() {
+    createGPXFile();
+});

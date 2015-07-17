@@ -1,7 +1,7 @@
 /* GLOBALES VARIABLES */
 var map = null;
 var clickHandlerId;
-var nbPushpins = 0;
+var firstDelete = false;
 var totalDistance = 0;
 var routepoints = new Array();
 var buckledUp = false;
@@ -34,7 +34,7 @@ function getMap()
 
     /* EVENTS */
 
-    // Desactivation of double click for zooming
+    // Deactivation of double click for zooming
     Microsoft.Maps.Events.addHandler(map, 'dblclick', 
             function(e) {
                 e.handled = true;
@@ -43,13 +43,13 @@ function getMap()
 
     // Add a handler to function that add a pushpin when click
     clickHandlerId = Microsoft.Maps.Events.addHandler(map, 'click', 
-            function(e) {
-              if (e.targetType == "map") {
-                    var point = new Microsoft.Maps.Point(e.getX(), e.getY());
-                    var loc = e.target.tryPixelToLocation(point) ;
-                    map.getCredentials(function(credentials) { callRestService(credentials, loc); } ); 
-              }
+        function(e) {
+            if (e.targetType == "map") {
+                var point = new Microsoft.Maps.Point(e.getX(), e.getY());
+                var loc = e.target.tryPixelToLocation(point) ;
+                map.getCredentials(function(credentials) { callRestService(credentials, loc); } ); 
             }
+        }
     );
 
     // Add a handler to function that will change 
@@ -63,8 +63,7 @@ function getMap()
 
 function addPushpin(param) 
 {
-    nbPushpins++;
-    pushpinOpt = {text: nbPushpins.toString() };
+    pushpinOpt = {text: (map.entities.getLength() + 1).toString() };
     if(buckledUp) { pushpinOpt['visible'] = false; }
     // Add the pin to the map
     var pin = new Microsoft.Maps.Pushpin(param, pushpinOpt); 
@@ -76,31 +75,39 @@ function addPushpin(param)
 
 function deletePushpin(e)
 {
-    if(parseInt(e.target.getText()) === nbPushpins)
+    var nbPush = map.entities.getLength() - 1;
+    if(parseInt(e.target.getText()) == nbPush)
     {
         // We gonna start a new line
-        map.entities.removeAt(nbPushpins); 
-        map.entities.removeAt(nbPushpins - 1); 
-        nbPushpins--;
+        map.entities.removeAt(nbPush); 
+        map.entities.removeAt(nbPush - 1); 
+        nbPush--;
         routepoints = new Array();
 
-        if(nbPushpins > 1) {
+        if(nbPush > 1) {
             map.getCredentials(callDeleteRestService); 
         } else { 
-            if(nbPushpins !== 0) {
+            // Center the view on the previous pushpin
+            if(nbPush === 1) {
                 // Center the view on the previous pushpin
+                map.entities.get(0).setOptions({ icon: "images/default_pushpin.png" });
                 var loc = map.entities.get(0).getLocation();
                 map.setView({center: new Microsoft.Maps.Location(loc.latitude, loc.longitude) }); 
             }
             totalDistance = 0; 
-            removeHTMLPushpin();
+            removeHTMLPushpin(map.entities.getLength());
         } 
+    } else {
+        if(nbPush === 0)
+        {
+            map.entities.clear();
+        }
     }
 }
 
 /* HAVERSINE FORMULA */
 
-function calculateBirdDistance(locationStart, locationEnd)
+/*function calculateBirdDistance(locationStart, locationEnd)
 {
     if(locationStart != null) {
         // Earth Radius
@@ -118,38 +125,47 @@ function calculateBirdDistance(locationStart, locationEnd)
     } else {
         return 0;
     }
-}
+}*/
 
 function changePins(e)
 {
-    for (i = 0; i < nbPushpins - 1; i++) 
-    {
-        pin = e.collection.get(i);
-        pin.setOptions({ icon: "images/blue_pushpin.png" });                      
+    var lastEntityString = map.entities.get(map.entities.getLength() - 1).toString();
+    if(lastEntityString === "[Pushpin]") {
+        var nbPush = map.entities.getLength();
+        if(nbPush > 1) {
+            for (i = 0; i < nbPush - 1; i++) 
+            {
+                map.entities.get(i).setOptions({ icon: "images/blue_pushpin.png" });                      
+            }
+        }
     }
 }
 
 function changeLastPin()
 {
-    if(nbPushpins > 1) {
-        map.entities.get(nbPushpins - 2).setOptions({ icon: "images/default_pushpin.png" });
-    }
+    //alert("changeLastPin : " + map.entities.getLength());
+    var nbPush = map.entities.getLength();
+    if(nbPush > 1) {
+        map.entities.get(nbPush - 1).setOptions({ icon: "images/default_pushpin.png" });
+    } 
 }
 
 /********* RECUPERATION ITINERAIRE ENTRE DEUX POINTS PLACÉS **********/
 
 function callRestService(credentials, param) 
 {   
-    if(nbPushpins != 0) {
-        if(nbPushpins > 1) {
+    var nbPush = map.entities.getLength();
+    if(nbPush != 0) {
+        if(nbPush > 1) {
             // Removal of the Polyline of Map's entities
-            map.entities.removeAt(nbPushpins); 
+            map.entities.removeAt(nbPush - 1); 
+            nbPush = map.entities.getLength();
         }
 
         var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes/Walking?wp.0=";
 
         // Add the waypoints for the route, lastPushpin present on the map and where we just clicked
-        var loc = map.entities.get((nbPushpins - 1)).getLocation();
+        var loc = map.entities.get((nbPush - 1)).getLocation();
         routeRequest += loc.latitude + ',' + loc.longitude + "&wp.1=";   
         routeRequest += parseFloat(param.latitude.toFixed(6)) + ',' + parseFloat(param.longitude.toFixed(6));   
 
@@ -178,27 +194,29 @@ function RouteCallback(result) {
         // Add the new points on the route
         var routeline = result.resourceSets[0].resources[0].routePath.line;
         // It's the first line that we draw
-        if(nbPushpins === 1) { 
+        
+        if(map.entities.getLength() == 1) {
             map.entities.clear();
-            nbPushpins = 0;
-            addPushpin(new Microsoft.Maps.Location(routeline.coordinates[0][0], routeline.coordinates[0][1])); 
-            routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[0][0], routeline.coordinates[0][1]) );    
+            var locFirstPoint = new Microsoft.Maps.Location(routeline.coordinates[0][0], routeline.coordinates[0][1]);
+            addPushpin(locFirstPoint); 
+            routepoints.push(locFirstPoint);    
         }
 
         var i;
-        // Add of each calculated points
+        // Add of each calculated points 
+        // (The first is the last end point from the previous track so we do nothing)
         for (i = 1; i < routeline.coordinates.length; i++) {
-            routepoints.push( new Microsoft.Maps.Location(routeline.coordinates[i][0], routeline.coordinates[i][1]) );
+            routepoints.push(new Microsoft.Maps.Location(routeline.coordinates[i][0], routeline.coordinates[i][1]));
         }
          
         // Redraw the full route on the map
-        var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200, 0, 0, 200)} );
+        var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor: new Microsoft.Maps.Color(200, 0, 0, 200)} );
 
         // Add of the Pushpin
         var distance = result.resourceSets[0].resources[0].travelDistance * 1000;
         addPushpin(new Microsoft.Maps.Location(routeline.coordinates[i - 1][0], routeline.coordinates[i - 1][1])); 
         totalDistance += distance;
-        addHTMLPushpin(distance, buckledUp);
+        addHTMLPushpin(map.entities.getLength(), distance, buckledUp);
 
         // Re-Add of the Polyline on the Map
         map.entities.push(routeshape);     
@@ -209,8 +227,8 @@ function callDeleteRestService(credentials)
 {   
     var routeRequest = "http://dev.virtualearth.net/REST/v1/Routes/Walking?";
 
-    // Add all the waypoints (ndlr. Pushpins on the Map) in the route
-    for (i = 0; i < nbPushpins; i++) 
+    // Add all the waypoints (ndlr. Pushpins on the Map) on route
+    for (i = 0; i < map.entities.getLength(); i++) 
     {
         loc = map.entities.get(i).getLocation();
         routeRequest += "wp." + i + '=' + loc.latitude + ',' + loc.longitude + '&';                 
@@ -246,7 +264,7 @@ function DeleteRouteCallback(result) {
         var routeshape = new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200, 0, 0, 200)} );
         map.entities.push(routeshape);  
 
-        removeHTMLPushpin();
+        removeHTMLPushpin(map.entities.getLength());
 
         map.setView({center: new Microsoft.Maps.Location(routeline.coordinates[i - 1][0], routeline.coordinates[i - 1][1]) });   
      }
@@ -275,11 +293,11 @@ function buckleTrack()
 
 function unBuckleTrack()
 {
+    var nbPush = map.entities.getLength();
     buckledUp = false;
     // We gonna start a new line
-    map.entities.removeAt(nbPushpins); 
-    map.entities.removeAt(nbPushpins - 1); 
-    nbPushpins--;
+    map.entities.removeAt(nbPush); 
+    map.entities.removeAt(nbPush - 1); 
     routepoints = new Array();
 
     map.getCredentials(callDeleteRestService); 
