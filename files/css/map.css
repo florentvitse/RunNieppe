@@ -1,5 +1,4 @@
 .map {
-  
 	position: relative;
 	width: 100%;
 	height: 520px;
@@ -7,21 +6,17 @@
 }
 
 /* MEDIA STYLE */
-@media (max-width: 980px) {
+@media (max-width: 768px) {
   h2 {
       padding-top: 20px;
   }
 
-  .map {
-  	display: none;
-  }
-
-  .info_track {
+  .mainJumbotron {
   	display: none;
   }
 }
 
-@media (min-width: 980px) {
+@media (min-width: 768px) {
   .info_map_mobile {
   	display: none;
   }
