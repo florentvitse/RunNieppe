@@ -2,8 +2,8 @@
 var map = null;
 var clickHandlerId;
 var totalDistance = 0;
-var distance = 0;
 var routepoints = new Array();
+var distances = new Array();
 var buckledUp = false;
 var currentLocation = null;
 
@@ -101,6 +101,7 @@ function deletePushpin(e)
                 var _loc = map.entities.get(0).getLocation();
                 map.setView({center: new Microsoft.Maps.Location(_loc.latitude, _loc.longitude) }); 
             }
+            distances = new Array();
             totalDistance = 0; 
             removeHTMLPushpin(map.entities.getLength());
         } 
@@ -195,10 +196,10 @@ function RouteCallback(result) {
         }
          
         // Add of the Pushpin
-        distance = result.resourceSets[0].resources[0].travelDistance * 1000;
+        distances.push(result.resourceSets[0].resources[0].travelDistance * 1000);
         addPushpin(new Microsoft.Maps.Location(_routeline.coordinates[i - 1][0], _routeline.coordinates[i - 1][1])); 
-        totalDistance += distance;
-        addHTMLPushpin(map.entities.getLength(), distance, buckledUp);
+        totalDistance += distances[distances.length - 1];
+        addHTMLPushpin(map.entities.getLength(), distances[distances.length - 1], buckledUp);
 
         // Re-Add of the Polyline on the Map
         map.entities.push( new Microsoft.Maps.Polyline(routepoints, {strokeColor: new Microsoft.Maps.Color(200, 0, 0, 200)} ) );     
@@ -217,7 +218,8 @@ function deleteAutoService()
     }
 
     // Redraw the full route on the map
-    totalDistance -= distance;
+    totalDistance -= distances[distances.length - 1];
+    distances.pop();
     map.entities.push( new Microsoft.Maps.Polyline(routepoints, {strokeColor:new Microsoft.Maps.Color(200, 0, 0, 200)} ) );  
 
     removeHTMLPushpin(map.entities.getLength());
