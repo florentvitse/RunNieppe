@@ -7,13 +7,19 @@ function createGPXFile () {
             + currentdate.getMinutes() + ":" 
             + currentdate.getSeconds() + ".000Z";
 
-    var XMLDoc = '<?xml version="1.0" encoding="utf-8"?>\r\n<gpx version="1.1" creator="RunNieppe">\r\n\t<metadata>\r\n\t\t<time>' 
+    var XMLDoc = '<?xml version="1.0" encoding="utf-8"?>\r\n<gpx version="1.1" creator="RunNieppe">\r\n\t'
+                + '<metadata>\r\n\t\t'
+                + '<time>' 
                 + datetime 
-                + '</time>\r\n\t</metadata>\r\n\t<trk>\r\n\t\t<trkseg>';
+                + '</time>\r\n\t</metadata>\r\n\t'
+                + '<trk>\r\n\t\t'
+                + '<name>RunNieppe_Track_c_' + datetime + '</name>\r\n\t\t'
+                + '<trkseg>\r\n\t\t\t';
 
-    // Add of the points used to drew the Polyline
+    // Add of the points used to draw the Polyline
     $(routepoints).each(function(index, value) {
-        XMLDoc += '\r\n\t\t\t<trkpt lat="' + value.latitude + '" lon="' + value.longitude + '"/>';
+        XMLDoc += '<trkpt lat="' + value.latitude + '" lon="' + value.longitude + '">' 
+               + '\r\n\t\t\t\t<ele>0</ele>\r\n\t\t\t\t<time>0000-00-00T00:00:00Z</time>\r\n\t\t\t</trkpt>\r\n\t\t\t';
     });
 
     XMLDoc += '\r\n\t\t</trkseg>\r\n\t</trk>\r\n</gpx>';
