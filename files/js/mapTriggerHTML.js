@@ -7,6 +7,15 @@ function formateDistance(dist)
     }
 }
 
+function formateDistanceMiles(dist)
+{
+    if(dist < 1609) {
+        return ( ((dist * 0.621371192).toFixed(0) / 1000) + ' mi');
+    } else {
+        return ( ((dist * 0.621371192) / 1000).toFixed(2) + ' mi');
+    }
+}
+
 function addHTMLPushpin(number, distance, buckled)
 {
     var percent;
@@ -35,6 +44,7 @@ function addHTMLPushpin(number, distance, buckled)
                                             + formateDistance(distance) + '</span></td></tr><br><br>');
         
         $("#total_distance").text(formateDistance(totalDistance));
+        $("#total_distance_miles").text(formateDistanceMiles(totalDistance));
         updateProgressBar();
         updateActionButtons(number);
     }
@@ -43,6 +53,7 @@ function addHTMLPushpin(number, distance, buckled)
 function removeHTMLPushpin(number)
 {
     $("#total_distance").text(formateDistance(totalDistance));
+    $("#total_distance_miles").text(formateDistanceMiles(totalDistance));
     
     if(number > 0) {
         $("#table_distance tr:last").remove();
