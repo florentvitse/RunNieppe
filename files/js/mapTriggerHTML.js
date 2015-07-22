@@ -87,7 +87,7 @@ function updateProgressBar()
         $(labelBar[key]).text((arrayDistance[distTest + parseInt(key)] / 1000) + " km / " + arrayDistanceMiles[distTest + parseInt(key)] + " mi");
 
         percent = Math.ceil((totalDistance / arrayDistance[distTest + parseInt(key)]) * 100);
-        if(percent > 100) {
+        if(percent > 99.99) {
             percent = 100;
             $(arrayBar[key]).removeClass("active").removeClass("progress-bar-striped");
         } else {
