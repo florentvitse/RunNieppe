@@ -72,6 +72,7 @@ function updateProgressBar()
     var labelBar = $(".labelBar").get();
     var arrayBar = $(".progress .progress-bar").get();
     var arrayDistance = [5000, 10000, 15000, 21000, 30000, 42195];
+    var arrayDistanceMiles = [3.1, 6.2, 9.3, 13.1, 18.6, 26.2];
     var distTest = 0;
      
     // Determination de la plus grande distance à afficher tant que l'on est inférieur à celle-ci   
@@ -83,7 +84,7 @@ function updateProgressBar()
     // Affichage des barres correspondantes avec les ratios associés
     for (key in arrayBar) {
 
-        $(labelBar[key]).text((arrayDistance[distTest + parseInt(key)] / 1000) + " km");
+        $(labelBar[key]).text((arrayDistance[distTest + parseInt(key)] / 1000) + " km / " + arrayDistanceMiles[distTest + parseInt(key)] + " mi");
 
         percent = Math.ceil((totalDistance / arrayDistance[distTest + parseInt(key)]) * 100);
         if(percent > 100) {
