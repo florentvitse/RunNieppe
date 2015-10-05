@@ -140,6 +140,9 @@ function changeLastPin()
 
 function callRestService(credentials, param) 
 {   
+	// Remove the click handler on the map
+	Microsoft.Maps.Events.removeHandler(clickHandlerId);
+
     var _nbPush = map.entities.getLength();
     if(_nbPush != 0) {
         if(_nbPush > 1) {
@@ -166,6 +169,9 @@ function callRestService(credentials, param)
     } else {
         addPushpin(new Microsoft.Maps.Location( parseFloat(param.latitude.toFixed(6)), parseFloat(param.longitude.toFixed(6)) ) );
     }
+
+    // Re-add the click handler on the map
+    addClickHandler();
 }
 
 // Evaluate the script and fetching data
@@ -250,7 +256,7 @@ function unBuckleTrack()
 
 /* HAVERSINE FORMULA */
 
-/*function calculateBirdDistance(locationStart, locationEnd)
+function calculateBirdDistance(locationStart, locationEnd)
 {
     if(locationStart != null) {
         // Earth Radius
@@ -268,4 +274,4 @@ function unBuckleTrack()
     } else {
         return 0;
     }
-}*/
+}
