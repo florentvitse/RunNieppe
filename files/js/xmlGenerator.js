@@ -7,9 +7,9 @@ function createGPXFile () {
             + currentdate.getMinutes() + ":" 
             + currentdate.getSeconds() + ".000Z";
 
-    var XMLDoc = '<?xml version="1.0" encoding="utf-8">\r\n'
+    var XMLDoc = '<?xml version="1.0" encoding="utf-8"?>\r\n'
                 + '<gpx version="1.1"\r\n\t'
-                + '     creator="RunNieppe">\r\n\t'
+                + '     creator="RunNieppe"\r\n\t'
                 + '     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\r\n\t'
                 + '     xmlns="http://www.topografix.com/GPX/1/1"\r\n\t'
                 + '     xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">\r\n\t'
