@@ -98,8 +98,7 @@ function updateProgressBar()
 }
 
 $('#loopTrack').click(function() {
-    var enableLoop = $('#loopTrack').attr("data-enableloop");
-    if(enableLoop === "true"){
+    if( $('#loopTrack').attr("data-enableloop") === "true"){
         $('#loopTrack').attr("data-enableloop", false);
         $('#loopTrack').text("Débouclez le parcours");
         buckleTrack();

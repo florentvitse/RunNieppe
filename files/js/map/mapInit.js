@@ -52,9 +52,8 @@ function getMap()
     Microsoft.Maps.Events.addHandler(map.entities, 'entityremoved', changeLastPin);
 }
 
-function addClickHandler()
-{
-    clickHandlerId = Microsoft.Maps.Events.addHandler(map, 'click', 
+function addClickHandler(){
+    clickHandlerId = Microsoft.Maps.Events.addHandler(map, 'rightclick', 
         function(e) {
             if (e.targetType == "map") {
                 var _point = new Microsoft.Maps.Point(e.getX(), e.getY());
@@ -65,8 +64,7 @@ function addClickHandler()
     );
 }
 
-function addPushpin(param) 
-{
+function addPushpin(param) {
     _pushpinOpt = {text: (map.entities.getLength() + 1).toString() };
     if(buckledUp) { 
         _pushpinOpt['visible'] = false; 
@@ -79,8 +77,7 @@ function addPushpin(param)
     map.setView({center: param});
 }
 
-function deletePushpin(e)
-{
+function deletePushpin(e){
     var _nbPush = map.entities.getLength() - 1;
     if(parseInt(e.target.getText()) == _nbPush)
     {
@@ -113,8 +110,7 @@ function deletePushpin(e)
     }
 }
 
-function changePins(e)
-{
+function changePins(e){
     var _lastEntityString = map.entities.get(map.entities.getLength() - 1).toString();
     if(_lastEntityString === "[Pushpin]") {
         var _nbPush = map.entities.getLength();
@@ -127,8 +123,7 @@ function changePins(e)
     }
 }
 
-function changeLastPin()
-{
+function changeLastPin(){
     //alert("changeLastPin : " + map.entities.getLength());
     var _nbPush = map.entities.getLength();
     if(_nbPush > 1) {
@@ -136,10 +131,9 @@ function changeLastPin()
     } 
 }
 
-/********* RECUPERATION ITINERAIRE ENTRE DEUX POINTS PLACÉS **********/
+/********* RECUPERATION ITINERAIRE ENTRE DEUX POINTS PLACÉS *********/
 
-function callRestService(credentials, param) 
-{   
+function callRestService(credentials, param) {   
 	// Remove the click handler on the map
 	Microsoft.Maps.Events.removeHandler(clickHandlerId);
 
@@ -170,8 +164,10 @@ function callRestService(credentials, param)
         addPushpin(new Microsoft.Maps.Location( parseFloat(param.latitude.toFixed(6)), parseFloat(param.longitude.toFixed(6)) ) );
     }
 
-    // Re-add the click handler on the map
-    addClickHandler();
+    // Re-add the click handler on the map if not buckled
+
+    //TODO Condition this with buckle button
+    if( $('#loopTrack').attr("data-enableloop") == "true" ) { addClickHandler(); }
 }
 
 // Evaluate the script and fetching data
@@ -233,6 +229,8 @@ function deleteAutoService()
     map.setView({center: _loc });   
 }
 
+
+/********* Loop back track *********/
 function buckleTrack()
 {
     buckledUp = true;
@@ -254,7 +252,7 @@ function unBuckleTrack()
     addClickHandler();
 }
 
-/* HAVERSINE FORMULA */
+/*********  HAVERSINE FORMULA *********/
 
 function calculateBirdDistance(locationStart, locationEnd)
 {
